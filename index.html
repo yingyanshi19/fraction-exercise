@@ -3,761 +3,931 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>分數學習練習題 - 基礎&進階</title>
+    <title>分數學習練習題（入門版）</title>
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: "Microsoft JhengHei", 微軟正黑體, sans-serif;
-        }
-
-        body {
-            background-color: #f8f9fa;
-            padding: 20px;
-            color: #333;
-        }
-
-        .container {
-            max-width: 800px;
-            margin: 0 auto;
-            background: white;
-            padding: 30px;
-            border-radius: 10px;
-            box-shadow: 0 0 10px rgba(0,0,0,0.1);
-        }
-
-        h1 {
-            text-align: center;
-            color: #2c3e50;
-            margin-bottom: 30px;
-        }
-
-        /* 難度切換按鈕 */
-        .difficulty-buttons {
-            display: flex;
-            justify-content: center;
-            gap: 20px;
-            margin-bottom: 30px;
-        }
-
-        .diff-btn {
-            padding: 10px 30px;
-            font-size: 18px;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            background-color: #3498db;
-            color: white;
-            transition: background 0.3s;
-        }
-
-        .diff-btn.active {
-            background-color: #2980b9;
-            font-weight: bold;
-        }
-
-        .diff-btn:hover {
-            background-color: #2980b9;
-        }
-
-        /* 習題區域 */
-        .exercise-section {
-            display: none;
-        }
-
-        .exercise-section.active {
-            display: block;
-        }
-
-        .question {
-            margin-bottom: 40px;
-            padding: 20px;
-            border: 1px solid #eee;
-            border-radius: 8px;
-            background-color: #fefefe;
-        }
-
-        .question h3 {
-            margin-bottom: 15px;
-            font-size: 18px;
-            color: #34495e;
-        }
-
-        /* 圖形容器 */
-        .shape-container {
-            display: flex;
-            justify-content: center;
-            margin: 20px 0;
-            height: 150px;
-            align-items: center;
-        }
-
-        .shape {
-            position: relative;
-            width: 150px;
-            height: 150px;
-        }
-
-        /* 答題區 */
-        .answer-area {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            justify-content: center;
-            margin-top: 15px;
-        }
-
-        .num-input {
-            width: 60px;
-            height: 40px;
-            text-align: center;
-            font-size: 18px;
-            border: 1px solid #ddd;
-            border-radius: 4px;
-        }
-
-        .fraction-line {
-            width: 60px;
-            height: 2px;
-            background-color: #333;
-            margin: 5px 0;
-        }
-
-        .submit-ans {
-            padding: 8px 20px;
-            background-color: #2ecc71;
-            color: white;
-            border: none;
-            border-radius: 4px;
-            cursor: pointer;
-            font-size: 16px;
-        }
-
-        .submit-ans:hover {
-            background-color: #27ae60;
-        }
-
-        /* 反饋提示 */
-        .feedback {
-            margin-top: 15px;
-            text-align: center;
-            font-size: 18px;
-            font-weight: bold;
-            min-height: 24px;
-        }
-
-        .correct {
-            color: #27ae60;
-        }
-
-        .wrong {
-            color: #e74c3c;
-        }
-
-        /* 計分區 */
-        .score-area {
-            text-align: center;
-            font-size: 20px;
-            font-weight: bold;
-            margin: 20px 0;
-            color: #2c3e50;
-        }
-
-        /* 進階題型特殊樣式 */
-        .no-shape {
-            height: 150px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 24px;
-        }
-
-        .word-problem {
-            font-size: 18px;
-            line-height: 1.6;
-        }
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: "Microsoft JhengHei", 微軟正黑體, sans-serif; }
+        body { background-color: transparent; padding: 10px; color: #333; }
+        .container { max-width: 100%; margin: 0 auto; background: white; padding: 20px; border-radius: 10px; box-shadow: 0 0 10px rgba(0,0,0,0.1); }
+        h1 { text-align: center; color: #2c3e50; margin-bottom: 20px; font-size: 24px; }
+        .difficulty-buttons { display: flex; justify-content: center; gap: 10px; margin-bottom: 20px; flex-wrap: wrap; }
+        .diff-btn { padding: 10px 20px; font-size: 16px; border: none; border-radius: 5px; cursor: pointer; background-color: #bdc3c7; color: white; transition: 0.3s; }
+        .diff-btn.active { background-color: #3498db; font-weight: bold; }
+        .exercise-section { display: none; }
+        .exercise-section.active { display: block; }
+        .question { margin-bottom: 30px; padding: 15px; border: 1px solid #eee; border-radius: 8px; background-color: #fefefe; }
+        .question h3 { font-size: 18px; margin-bottom: 10px; color: #34495e; }
+        .shape-container { display: flex; justify-content: center; margin: 15px 0; min-height: 120px; align-items: center; gap: 15px; flex-wrap: wrap; }
+        .answer-area { display: flex; align-items: center; gap: 8px; justify-content: center; margin-top: 15px; flex-wrap: wrap; }
+        .num-input { width: 50px; height: 40px; text-align: center; font-size: 18px; border: 1px solid #ddd; border-radius: 4px; }
+        .fraction-line-box { display: flex; flex-direction: column; align-items: center; }
+        .fraction-line { width: 40px; height: 2px; background-color: #333; margin: 4px 0; }
+        .submit-ans { padding: 8px 15px; background-color: #2ecc71; color: white; border: none; border-radius: 4px; cursor: pointer; margin-left: 10px; margin-top: 5px; }
+        .feedback { margin-top: 10px; text-align: center; font-size: 16px; font-weight: bold; min-height: 20px; }
+        .correct { color: #27ae60; }
+        .wrong { color: #e74c3c; }
+        .score-area { text-align: center; font-size: 18px; margin-bottom: 20px; padding: 10px; background: #ecf0f1; border-radius: 5px; }
+        /* 豎式分數樣式（進階題專用） */
+        .vertical-fraction { display: flex; flex-direction: column; align-items: center; margin: 0 5px; }
+        .vertical-fraction span { font-size: 18px; }
+        .vertical-fraction .line { width: 30px; height: 2px; background-color: #000; margin: 2px 0; }
+        .word-problem { font-size: 17px; line-height: 1.5; }
+        .instruction-note { background: #f8f9fa; border-left: 4px solid #3498db; padding: 10px 15px; margin: 15px 0; font-size: 15px; color: #2c3e50; }
     </style>
 </head>
 <body>
     <div class="container">
-        <h1>分數學習練習題</h1>
+        <h1>🍕 分數實驗室練習題（入門版）</h1>
+        
+        <div class="instruction-note">
+            <strong>📝 重要提示：</strong> 直接填寫圖形中填色部分所佔的分數，不需要化簡。
+        </div>
 
-        <!-- 難度切換 -->
         <div class="difficulty-buttons">
-            <button class="diff-btn" id="basic-btn">基礎難度</button>
-            <button class="diff-btn" id="advanced-btn">進階難度</button>
+            <button class="diff-btn active" id="basic-btn" data-section="basic-section">基礎：認識分數</button>
+            <button class="diff-btn" id="advanced-btn" data-section="advanced-section">進階：分數加減&應用</button>
         </div>
 
-        <!-- 計分區 -->
         <div class="score-area">
-            當前分數：<span id="score">0</span> / 總題數：<span id="total-questions">0</span>
+            得分：<span id="score">0</span> / 已答：<span id="answered">0</span>
         </div>
 
-        <!-- 基礎難度區域 -->
-        <div class="exercise-section" id="basic-section">
-            <!-- 基礎題1：圓形 平均分6份 填1份 -->
-            <div class="question" data-correct="1/6">
-                <h3>題目1：請看下方圓形，填色部分佔整個圓形的幾分之幾？</h3>
+        <!-- 基礎難度：6題 僅長方形/正方形 不約分 -->
+        <div class="exercise-section active" id="basic-section">
+            <!-- 基礎題1：正方形 4等分 填1份 → 1/4 -->
+            <div class="question" data-correct-n="1" data-correct-d="4">
+                <h3>1. 填色部分佔整個正方形的幾分之幾？</h3>
                 <div class="shape-container">
-                    <div class="shape">
-                        <!-- 圓形底層 -->
-                        <svg width="150" height="150" viewBox="0 0 150 150">
-                            <!-- 平均分6份的扇形 -->
-                            <path d="M75,75 L150,75 L127.5,138.5 Z" fill="#ff0000" />
-                            <path d="M75,75 L127.5,138.5 L37.5,138.5 Z" fill="#ffffff" stroke="#000" stroke-width="1" />
-                            <path d="M75,75 L37.5,138.5 L0,75 Z" fill="#ffffff" stroke="#000" stroke-width="1" />
-                            <path d="M75,75 L0,75 L37.5,11.5 Z" fill="#ffffff" stroke="#000" stroke-width="1" />
-                            <path d="M75,75 L37.5,11.5 L127.5,11.5 Z" fill="#ffffff" stroke="#000" stroke-width="1" />
-                            <path d="M75,75 L127.5,11.5 L150,75 Z" fill="#ffffff" stroke="#000" stroke-width="1" />
-                            <!-- 圓形輪廓 -->
-                            <circle cx="75" cy="75" r="75" fill="none" stroke="#000" stroke-width="2" />
-                            <!-- 分割線 -->
-                            <line x1="75" y1="75" x2="150" y2="75" stroke="#000" stroke-width="1" />
-                            <line x1="75" y1="75" x2="127.5" y2="138.5" stroke="#000" stroke-width="1" />
-                            <line x1="75" y1="75" x2="37.5" y2="138.5" stroke="#000" stroke-width="1" />
-                            <line x1="75" y1="75" x2="0" y2="75" stroke="#000" stroke-width="1" />
-                            <line x1="75" y1="75" x2="37.5" y2="11.5" stroke="#000" stroke-width="1" />
-                            <line x1="75" y1="75" x2="127.5" y2="11.5" stroke="#000" stroke-width="1" />
-                        </svg>
-                    </div>
+                    <svg width="120" height="120" viewBox="0 0 120 120">
+                        <rect x="0" y="0" width="60" height="60" fill="#ff7675" stroke="#333" stroke-width="1" />
+                        <rect x="60" y="0" width="60" height="60" fill="none" stroke="#333" stroke-width="1" />
+                        <rect x="0" y="60" width="60" height="60" fill="none" stroke="#333" stroke-width="1" />
+                        <rect x="60" y="60" width="60" height="60" fill="none" stroke="#333" stroke-width="1" />
+                        <rect x="0" y="0" width="120" height="120" fill="none" stroke="#333" stroke-width="2" />
+                        <line x1="60" y1="0" x2="60" y2="120" stroke="#ccc" />
+                        <line x1="0" y1="60" x2="120" y2="60" stroke="#ccc" />
+                    </svg>
                 </div>
                 <div class="answer-area">
-                    <input type="number" class="num-input numerator" placeholder="分子">
-                    <div class="fraction-line"></div>
-                    <input type="number" class="num-input denominator" placeholder="分母">
-                    <button class="submit-ans">提交答案</button>
+                    <div class="fraction-line-box">
+                        <input type="number" class="num-input n-in" placeholder="分子">
+                        <div class="fraction-line"></div>
+                        <input type="number" class="num-input d-in" placeholder="分母">
+                    </div>
+                    <button class="submit-ans">檢查答案</button>
                 </div>
                 <div class="feedback"></div>
             </div>
 
-            <!-- 基礎題2：長方形 平均分4份 填2份 -->
-            <div class="question" data-correct="2/4">
-                <h3>題目2：請看下方長方形，填色部分佔整個長方形的幾分之幾？</h3>
+            <!-- 基礎題2：長方形 6等分 填1份 → 1/6 -->
+            <div class="question" data-correct-n="1" data-correct-d="6">
+                <h3>2. 填色部分佔整個長方形的幾分之幾？</h3>
                 <div class="shape-container">
-                    <div class="shape">
-                        <svg width="180" height="120" viewBox="0 0 180 120">
-                            <!-- 平均分4列 -->
-                            <rect x="0" y="0" width="45" height="120" fill="#ff0000" stroke="#000" stroke-width="1" />
-                            <rect x="45" y="0" width="45" height="120" fill="#ff0000" stroke="#000" stroke-width="1" />
-                            <rect x="90" y="0" width="45" height="120" fill="#ffffff" stroke="#000" stroke-width="1" />
-                            <rect x="135" y="0" width="45" height="120" fill="#ffffff" stroke="#000" stroke-width="1" />
-                            <!-- 外框 -->
-                            <rect x="0" y="0" width="180" height="120" fill="none" stroke="#000" stroke-width="2" />
-                        </svg>
-                    </div>
+                    <svg width="180" height="80" viewBox="0 0 180 80">
+                        <rect x="0" y="0" width="30" height="80" fill="#74b9ff" stroke="#333" stroke-width="1" />
+                        <rect x="30" y="0" width="30" height="80" fill="none" stroke="#333" stroke-width="1" />
+                        <rect x="60" y="0" width="30" height="80" fill="none" stroke="#333" stroke-width="1" />
+                        <rect x="90" y="0" width="30" height="80" fill="none" stroke="#333" stroke-width="1" />
+                        <rect x="120" y="0" width="30" height="80" fill="none" stroke="#333" stroke-width="1" />
+                        <rect x="150" y="0" width="30" height="80" fill="none" stroke="#333" stroke-width="1" />
+                        <rect x="0" y="0" width="180" height="80" fill="none" stroke="#333" stroke-width="2" />
+                    </svg>
                 </div>
                 <div class="answer-area">
-                    <input type="number" class="num-input numerator" placeholder="分子">
-                    <div class="fraction-line"></div>
-                    <input type="number" class="num-input denominator" placeholder="分母">
-                    <button class="submit-ans">提交答案</button>
+                    <div class="fraction-line-box">
+                        <input type="number" class="num-input n-in" placeholder="分子">
+                        <div class="fraction-line"></div>
+                        <input type="number" class="num-input d-in" placeholder="分母">
+                    </div>
+                    <button class="submit-ans">檢查答案</button>
                 </div>
                 <div class="feedback"></div>
             </div>
 
-            <!-- 基礎題3：正方形 平均分9份 填3份 -->
-            <div class="question" data-correct="3/9">
-                <h3>題目3：請看下方正方形，填色部分佔整個正方形的幾分之幾？</h3>
+            <!-- 基礎題3：正方形 9等分 填2份 → 2/9 -->
+            <div class="question" data-correct-n="2" data-correct-d="9">
+                <h3>3. 填色部分佔整個正方形的幾分之幾？</h3>
                 <div class="shape-container">
-                    <div class="shape">
-                        <svg width="150" height="150" viewBox="0 0 150 150">
-                            <!-- 3x3格子 -->
-                            <rect x="0" y="0" width="50" height="50" fill="#ff0000" stroke="#000" stroke-width="1" />
-                            <rect x="50" y="0" width="50" height="50" fill="#ffffff" stroke="#000" stroke-width="1" />
-                            <rect x="100" y="0" width="50" height="50" fill="#ffffff" stroke="#000" stroke-width="1" />
-                            <rect x="0" y="50" width="50" height="50" fill="#ff0000" stroke="#000" stroke-width="1" />
-                            <rect x="50" y="50" width="50" height="50" fill="#ffffff" stroke="#000" stroke-width="1" />
-                            <rect x="100" y="50" width="50" height="50" fill="#ffffff" stroke="#000" stroke-width="1" />
-                            <rect x="0" y="100" width="50" height="50" fill="#ff0000" stroke="#000" stroke-width="1" />
-                            <rect x="50" y="100" width="50" height="50" fill="#ffffff" stroke="#000" stroke-width="1" />
-                            <rect x="100" y="100" width="50" height="50" fill="#ffffff" stroke="#000" stroke-width="1" />
-                            <!-- 外框 -->
-                            <rect x="0" y="0" width="150" height="150" fill="none" stroke="#000" stroke-width="2" />
-                        </svg>
-                    </div>
+                    <svg width="120" height="120" viewBox="0 0 120 120">
+                        <rect x="0" y="0" width="40" height="40" fill="#00b894" stroke="#333" stroke-width="1" />
+                        <rect x="40" y="0" width="40" height="40" fill="#00b894" stroke="#333" stroke-width="1" />
+                        <rect x="80" y="0" width="40" height="40" fill="none" stroke="#333" stroke-width="1" />
+                        <rect x="0" y="40" width="40" height="40" fill="none" stroke="#333" stroke-width="1" />
+                        <rect x="40" y="40" width="40" height="40" fill="none" stroke="#333" stroke-width="1" />
+                        <rect x="80" y="40" width="40" height="40" fill="none" stroke="#333" stroke-width="1" />
+                        <rect x="0" y="80" width="40" height="40" fill="none" stroke="#333" stroke-width="1" />
+                        <rect x="40" y="80" width="40" height="40" fill="none" stroke="#333" stroke-width="1" />
+                        <rect x="80" y="80" width="40" height="40" fill="none" stroke="#333" stroke-width="1" />
+                        <rect x="0" y="0" width="120" height="120" fill="none" stroke="#333" stroke-width="2" />
+                    </svg>
                 </div>
                 <div class="answer-area">
-                    <input type="number" class="num-input numerator" placeholder="分子">
-                    <div class="fraction-line"></div>
-                    <input type="number" class="num-input denominator" placeholder="分母">
-                    <button class="submit-ans">提交答案</button>
+                    <div class="fraction-line-box">
+                        <input type="number" class="num-input n-in" placeholder="分子">
+                        <div class="fraction-line"></div>
+                        <input type="number" class="num-input d-in" placeholder="分母">
+                    </div>
+                    <button class="submit-ans">檢查答案</button>
                 </div>
                 <div class="feedback"></div>
             </div>
 
-            <!-- 基礎題4：菱形 平均分8份 填4份 -->
-            <div class="question" data-correct="4/8">
-                <h3>題目4：請看下方菱形，填色部分佔整個菱形的幾分之幾？</h3>
+            <!-- 基礎題4：長方形 8等分 填3份 → 3/8 -->
+            <div class="question" data-correct-n="3" data-correct-d="8">
+                <h3>4. 填色部分佔整個長方形的幾分之幾？</h3>
                 <div class="shape-container">
-                    <div class="shape">
-                        <svg width="150" height="150" viewBox="0 0 150 150">
-                            <!-- 菱形平均分8份 -->
-                            <path d="M75,15 L112.5,75 L75,105 Z" fill="#ff0000" stroke="#000" stroke-width="1" />
-                            <path d="M75,105 L112.5,75 L135,75 Z" fill="#ff0000" stroke="#000" stroke-width="1" />
-                            <path d="M75,135 L112.5,75 L75,105 Z" fill="#ff0000" stroke="#000" stroke-width="1" />
-                            <path d="M37.5,75 L75,105 L75,135 Z" fill="#ff0000" stroke="#000" stroke-width="1" />
-                            <path d="M15,75 L37.5,75 L75,105 Z" fill="#ffffff" stroke="#000" stroke-width="1" />
-                            <path d="M75,15 L37.5,75 L15,75 Z" fill="#ffffff" stroke="#000" stroke-width="1" />
-                            <path d="M37.5,75 L75,15 L75,45 Z" fill="#ffffff" stroke="#000" stroke-width="1" />
-                            <path d="M75,45 L112.5,75 L75,15 Z" fill="#ffffff" stroke="#000" stroke-width="1" />
-                            <!-- 菱形外框 -->
-                            <polygon points="75,15 135,75 75,135 15,75" fill="none" stroke="#000" stroke-width="2" />
-                            <!-- 分割線 -->
-                            <line x1="75" y1="15" x2="75" y2="135" stroke="#000" stroke-width="1" />
-                            <line x1="15" y1="75" x2="135" y2="75" stroke="#000" stroke-width="1" />
-                            <line x1="75" y1="15" x2="135" y2="75" stroke="#000" stroke-width="1" />
-                            <line x1="135" y1="75" x2="75" y2="135" stroke="#000" stroke-width="1" />
-                            <line x1="75" y1="135" x2="15" y2="75" stroke="#000" stroke-width="1" />
-                            <line x1="15" y1="75" x2="75" y2="15" stroke="#000" stroke-width="1" />
-                        </svg>
-                    </div>
+                    <svg width="160" height="80" viewBox="0 0 160 80">
+                        <rect x="0" y="0" width="20" height="80" fill="#fdcb6e" stroke="#333" stroke-width="1" />
+                        <rect x="20" y="0" width="20" height="80" fill="#fdcb6e" stroke="#333" stroke-width="1" />
+                        <rect x="40" y="0" width="20" height="80" fill="#fdcb6e" stroke="#333" stroke-width="1" />
+                        <rect x="60" y="0" width="20" height="80" fill="none" stroke="#333" stroke-width="1" />
+                        <rect x="80" y="0" width="20" height="80" fill="none" stroke="#333" stroke-width="1" />
+                        <rect x="100" y="0" width="20" height="80" fill="none" stroke="#333" stroke-width="1" />
+                        <rect x="120" y="0" width="20" height="80" fill="none" stroke="#333" stroke-width="1" />
+                        <rect x="140" y="0" width="20" height="80" fill="none" stroke="#333" stroke-width="1" />
+                        <rect x="0" y="0" width="160" height="80" fill="none" stroke="#333" stroke-width="2" />
+                    </svg>
                 </div>
                 <div class="answer-area">
-                    <input type="number" class="num-input numerator" placeholder="分子">
-                    <div class="fraction-line"></div>
-                    <input type="number" class="num-input denominator" placeholder="分母">
-                    <button class="submit-ans">提交答案</button>
+                    <div class="fraction-line-box">
+                        <input type="number" class="num-input n-in" placeholder="分子">
+                        <div class="fraction-line"></div>
+                        <input type="number" class="num-input d-in" placeholder="分母">
+                    </div>
+                    <button class="submit-ans">檢查答案</button>
                 </div>
                 <div class="feedback"></div>
             </div>
 
-            <!-- 基礎題5：圓形 平均分8份 填3份 -->
-            <div class="question" data-correct="3/8">
-                <h3>題目5：請看下方圓形，填色部分佔整個圓形的幾分之幾？</h3>
+            <!-- 基礎題5：長方形 10等分 填3份 → 3/10 -->
+            <div class="question" data-correct-n="3" data-correct-d="10">
+                <h3>5. 填色部分佔整個長方形的幾分之幾？</h3>
                 <div class="shape-container">
-                    <div class="shape">
-                        <svg width="150" height="150" viewBox="0 0 150 150">
-                            <!-- 平均分8份扇形 -->
-                            <path d="M75,75 L150,75 L130.6,130.6 Z" fill="#ff0000" stroke="#000" stroke-width="1" />
-                            <path d="M75,75 L130.6,130.6 Z L75,150 Z" fill="#ff0000" stroke="#000" stroke-width="1" />
-                            <path d="M75,75 L75,150 L19.4,130.6 Z" fill="#ff0000" stroke="#000" stroke-width="1" />
-                            <path d="M75,75 L19.4,130.6 Z L0,75 Z" fill="#ffffff" stroke="#000" stroke-width="1" />
-                            <path d="M75,75 L0,75 L19.4,19.4 Z" fill="#ffffff" stroke="#000" stroke-width="1" />
-                            <path d="M75,75 L19.4,19.4 Z L75,0 Z" fill="#ffffff" stroke="#000" stroke-width="1" />
-                            <path d="M75,75 L75,0 L130.6,19.4 Z" fill="#ffffff" stroke="#000" stroke-width="1" />
-                            <path d="M75,75 L130.6,19.4 Z L150,75 Z" fill="#ffffff" stroke="#000" stroke-width="1" />
-                            <!-- 外框 -->
-                            <circle cx="75" cy="75" r="75" fill="none" stroke="#000" stroke-width="2" />
-                            <!-- 分割線 -->
-                            <line x1="75" y1="75" x2="150" y2="75" stroke="#000" stroke-width="1" />
-                            <line x1="75" y1="75" x2="130.6" y2="130.6" stroke="#000" stroke-width="1" />
-                            <line x1="75" y1="75" x2="75" y2="150" stroke="#000" stroke-width="1" />
-                            <line x1="75" y1="75" x2="19.4" y2="130.6" stroke="#000" stroke-width="1" />
-                            <line x1="75" y1="75" x2="0" y2="75" stroke="#000" stroke-width="1" />
-                            <line x1="75" y1="75" x2="19.4" y2="19.4" stroke="#000" stroke-width="1" />
-                            <line x1="75" y1="75" x2="75" y2="0" stroke="#000" stroke-width="1" />
-                            <line x1="75" y1="75" x2="130.6" y2="19.4" stroke="#000" stroke-width="1" />
-                        </svg>
-                    </div>
+                    <svg width="200" height="80" viewBox="0 0 200 80">
+                        <rect x="0" y="0" width="20" height="80" fill="#a29bfe" stroke="#333" stroke-width="1" />
+                        <rect x="20" y="0" width="20" height="80" fill="#a29bfe" stroke="#333" stroke-width="1" />
+                        <rect x="40" y="0" width="20" height="80" fill="#a29bfe" stroke="#333" stroke-width="1" />
+                        <rect x="60" y="0" width="20" height="80" fill="none" stroke="#333" stroke-width="1" />
+                        <rect x="80" y="0" width="20" height="80" fill="none" stroke="#333" stroke-width="1" />
+                        <rect x="100" y="0" width="20" height="80" fill="none" stroke="#333" stroke-width="1" />
+                        <rect x="120" y="0" width="20" height="80" fill="none" stroke="#333" stroke-width="1" />
+                        <rect x="140" y="0" width="20" height="80" fill="none" stroke="#333" stroke-width="1" />
+                        <rect x="160" y="0" width="20" height="80" fill="none" stroke="#333" stroke-width="1" />
+                        <rect x="180" y="0" width="20" height="80" fill="none" stroke="#333" stroke-width="1" />
+                        <rect x="0" y="0" width="200" height="80" fill="none" stroke="#333" stroke-width="2" />
+                    </svg>
                 </div>
                 <div class="answer-area">
-                    <input type="number" class="num-input numerator" placeholder="分子">
-                    <div class="fraction-line"></div>
-                    <input type="number" class="num-input denominator" placeholder="分母">
-                    <button class="submit-ans">提交答案</button>
+                    <div class="fraction-line-box">
+                        <input type="number" class="num-input n-in" placeholder="分子">
+                        <div class="fraction-line"></div>
+                        <input type="number" class="num-input d-in" placeholder="分母">
+                    </div>
+                    <button class="submit-ans">檢查答案</button>
                 </div>
                 <div class="feedback"></div>
             </div>
 
-            <!-- 基礎題6：長方形 平均分10份 填5份 -->
-            <div class="question" data-correct="5/10">
-                <h3>題目6：請看下方長方形，填色部分佔整個長方形的幾分之幾？</h3>
+            <!-- 基礎題6：長方形 12等分 填5份 → 5/12 -->
+            <div class="question" data-correct-n="5" data-correct-d="12">
+                <h3>6. 填色部分佔整個長方形的幾分之幾？</h3>
                 <div class="shape-container">
-                    <div class="shape">
-                        <svg width="200" height="100" viewBox="0 0 200 100">
-                            <!-- 平均分10列 -->
-                            <rect x="0" y="0" width="20" height="100" fill="#ff0000" stroke="#000" stroke-width="1" />
-                            <rect x="20" y="0" width="20" height="100" fill="#ff0000" stroke="#000" stroke-width="1" />
-                            <rect x="40" y="0" width="20" height="100" fill="#ff0000" stroke="#000" stroke-width="1" />
-                            <rect x="60" y="0" width="20" height="100" fill="#ff0000" stroke="#000" stroke-width="1" />
-                            <rect x="80" y="0" width="20" height="100" fill="#ff0000" stroke="#000" stroke-width="1" />
-                            <rect x="100" y="0" width="20" height="100" fill="#ffffff" stroke="#000" stroke-width="1" />
-                            <rect x="120" y="0" width="20" height="100" fill="#ffffff" stroke="#000" stroke-width="1" />
-                            <rect x="140" y="0" width="20" height="100" fill="#ffffff" stroke="#000" stroke-width="1" />
-                            <rect x="160" y="0" width="20" height="100" fill="#ffffff" stroke="#000" stroke-width="1" />
-                            <rect x="180" y="0" width="20" height="100" fill="#ffffff" stroke="#000" stroke-width="1" />
-                            <!-- 外框 -->
-                            <rect x="0" y="0" width="200" height="100" fill="none" stroke="#000" stroke-width="2" />
-                        </svg>
-                    </div>
+                    <svg width="240" height="80" viewBox="0 0 240 80">
+                        <rect x="0" y="0" width="20" height="80" fill="#fab1a0" stroke="#333" stroke-width="1" />
+                        <rect x="20" y="0" width="20" height="80" fill="#fab1a0" stroke="#333" stroke-width="1" />
+                        <rect x="40" y="0" width="20" height="80" fill="#fab1a0" stroke="#333" stroke-width="1" />
+                        <rect x="60" y="0" width="20" height="80" fill="#fab1a0" stroke="#333" stroke-width="1" />
+                        <rect x="80" y="0" width="20" height="80" fill="#fab1a0" stroke="#333" stroke-width="1" />
+                        <rect x="100" y="0" width="20" height="80" fill="none" stroke="#333" stroke-width="1" />
+                        <rect x="120" y="0" width="20" height="80" fill="none" stroke="#333" stroke-width="1" />
+                        <rect x="140" y="0" width="20" height="80" fill="none" stroke="#333" stroke-width="1" />
+                        <rect x="160" y="0" width="20" height="80" fill="none" stroke="#333" stroke-width="1" />
+                        <rect x="180" y="0" width="20" height="80" fill="none" stroke="#333" stroke-width="1" />
+                        <rect x="200" y="0" width="20" height="80" fill="none" stroke="#333" stroke-width="1" />
+                        <rect x="220" y="0" width="20" height="80" fill="none" stroke="#333" stroke-width="1" />
+                        <rect x="0" y="0" width="240" height="80" fill="none" stroke="#333" stroke-width="2" />
+                    </svg>
                 </div>
                 <div class="answer-area">
-                    <input type="number" class="num-input numerator" placeholder="分子">
-                    <div class="fraction-line"></div>
-                    <input type="number" class="num-input denominator" placeholder="分母">
-                    <button class="submit-ans">提交答案</button>
-                </div>
-                <div class="feedback"></div>
-            </div>
-
-            <!-- 基礎題7：正方形 平均分6份 填2份 -->
-            <div class="question" data-correct="2/6">
-                <h3>題目7：請看下方正方形，填色部分佔整個正方形的幾分之幾？</h3>
-                <div class="shape-container">
-                    <div class="shape">
-                        <svg width="150" height="150" viewBox="0 0 150 150">
-                            <!-- 平均分6份（2行3列） -->
-                            <rect x="0" y="0" width="50" height="75" fill="#ff0000" stroke="#000" stroke-width="1" />
-                            <rect x="50" y="0" width="50" height="75" fill="#ffffff" stroke="#000" stroke-width="1" />
-                            <rect x="100" y="0" width="50" height="75" fill="#ffffff" stroke="#000" stroke-width="1" />
-                            <rect x="0" y="75" width="50" height="75" fill="#ffffff" stroke="#000" stroke-width="1" />
-                            <rect x="50" y="75" width="50" height="75" fill="#ff0000" stroke="#000" stroke-width="1" />
-                            <rect x="100" y="75" width="50" height="75" fill="#ffffff" stroke="#000" stroke-width="1" />
-                            <!-- 外框 -->
-                            <rect x="0" y="0" width="150" height="150" fill="none" stroke="#000" stroke-width="2" />
-                        </svg>
+                    <div class="fraction-line-box">
+                        <input type="number" class="num-input n-in" placeholder="分子">
+                        <div class="fraction-line"></div>
+                        <input type="number" class="num-input d-in" placeholder="分母">
                     </div>
-                </div>
-                <div class="answer-area">
-                    <input type="number" class="num-input numerator" placeholder="分子">
-                    <div class="fraction-line"></div>
-                    <input type="number" class="num-input denominator" placeholder="分母">
-                    <button class="submit-ans">提交答案</button>
-                </div>
-                <div class="feedback"></div>
-            </div>
-
-            <!-- 基礎題8：菱形 平均分4份 填1份 -->
-            <div class="question" data-correct="1/4">
-                <h3>題目8：請看下方菱形，填色部分佔整個菱形的幾分之幾？</h3>
-                <div class="shape-container">
-                    <div class="shape">
-                        <svg width="150" height="150" viewBox="0 0 150 150">
-                            <!-- 平均分4份 -->
-                            <path d="M75,15 L135,75 L75,75 Z" fill="#ff0000" stroke="#000" stroke-width="1" />
-                            <path d="M75,75 L135,75 L75,135 Z" fill="#ffffff" stroke="#000" stroke-width="1" />
-                            <path d="M75,75 L15,75 L75,135 Z" fill="#ffffff" stroke="#000" stroke-width="1" />
-                            <path d="M75,15 L15,75 L75,75 Z" fill="#ffffff" stroke="#000" stroke-width="1" />
-                            <!-- 外框 -->
-                            <polygon points="75,15 135,75 75,135 15,75" fill="none" stroke="#000" stroke-width="2" />
-                            <!-- 分割線 -->
-                            <line x1="75" y1="15" x2="75" y2="135" stroke="#000" stroke-width="1" />
-                            <line x1="15" y1="75" x2="135" y2="75" stroke="#000" stroke-width="1" />
-                        </svg>
-                    </div>
-                </div>
-                <div class="answer-area">
-                    <input type="number" class="num-input numerator" placeholder="分子">
-                    <div class="fraction-line"></div>
-                    <input type="number" class="num-input denominator" placeholder="分母">
-                    <button class="submit-ans">提交答案</button>
-                </div>
-                <div class="feedback"></div>
-            </div>
-
-            <!-- 基礎題9：圓形 平均分2份 填1份 -->
-            <div class="question" data-correct="1/2">
-                <h3>題目9：請看下方圓形，填色部分佔整個圓形的幾分之幾？</h3>
-                <div class="shape-container">
-                    <div class="shape">
-                        <svg width="150" height="150" viewBox="0 0 150 150">
-                            <!-- 平均分2份 -->
-                            <path d="M75,75 L150,0 L150,150 Z" fill="#ff0000" stroke="#000" stroke-width="1" />
-                            <path d="M75,75 L0,0 L0,150 Z" fill="#ffffff" stroke="#000" stroke-width="1" />
-                            <!-- 外框 -->
-                            <circle cx="75" cy="75" r="75" fill="none" stroke="#000" stroke-width="2" />
-                            <!-- 分割線 -->
-                            <line x1="75" y1="0" x2="75" y2="150" stroke="#000" stroke-width="1" />
-                        </svg>
-                    </div>
-                </div>
-                <div class="answer-area">
-                    <input type="number" class="num-input numerator" placeholder="分子">
-                    <div class="fraction-line"></div>
-                    <input type="number" class="num-input denominator" placeholder="分母">
-                    <button class="submit-ans">提交答案</button>
-                </div>
-                <div class="feedback"></div>
-            </div>
-
-            <!-- 基礎題10：長方形 平均分3份 填2份 -->
-            <div class="question" data-correct="2/3">
-                <h3>題目10：請看下方長方形，填色部分佔整個長方形的幾分之幾？</h3>
-                <div class="shape-container">
-                    <div class="shape">
-                        <svg width="180" height="120" viewBox="0 0 180 120">
-                            <!-- 平均分3列 -->
-                            <rect x="0" y="0" width="60" height="120" fill="#ff0000" stroke="#000" stroke-width="1" />
-                            <rect x="60" y="0" width="60" height="120" fill="#ff0000" stroke="#000" stroke-width="1" />
-                            <rect x="120" y="0" width="60" height="120" fill="#ffffff" stroke="#000" stroke-width="1" />
-                            <!-- 外框 -->
-                            <rect x="0" y="0" width="180" height="120" fill="none" stroke="#000" stroke-width="2" />
-                        </svg>
-                    </div>
-                </div>
-                <div class="answer-area">
-                    <input type="number" class="num-input numerator" placeholder="分子">
-                    <div class="fraction-line"></div>
-                    <input type="number" class="num-input denominator" placeholder="分母">
-                    <button class="submit-ans">提交答案</button>
+                    <button class="submit-ans">檢查答案</button>
                 </div>
                 <div class="feedback"></div>
             </div>
         </div>
 
-        <!-- 進階難度區域 -->
+        <!-- 進階難度：20題（前10圖形計算、中5豎式純計算、後5應用題） -->
         <div class="exercise-section" id="advanced-section">
-            <!-- 進階題1-10：帶圖案輔助計算 -->
-            <div class="question" data-correct="3/6+2/6=5/6">
-                <h3>進階題1：請看下方兩個圓形，計算 3/6 + 2/6 = ？（圖1：圓形填3份/6份；圖2：圓形填2份/6份）</h3>
+            <!-- 進階題1：圖形計算 1/8 + 2/8 = 3/8 -->
+            <div class="question" data-correct-n="3" data-correct-d="8">
+                <h3>1. 計算：1/8 + 2/8 = ?</h3>
                 <div class="shape-container">
-                    <div style="display: flex; gap: 20px;">
-                        <svg width="120" height="120" viewBox="0 0 120 120">
-                            <path d="M60,60 L120,60 L103.9,109.1 Z" fill="#ff0000" stroke="#000" stroke-width="1" />
-                            <path d="M60,60 L103.9,109.1 L36.1,109.1 Z" fill="#ff0000" stroke="#000" stroke-width="1" />
-                            <path d="M60,60 L36.1,109.1 L0,60 Z" fill="#ff0000" stroke="#000" stroke-width="1" />
-                            <path d="M60,60 L0,60 L36.1,10.9 Z" fill="#ffffff" stroke="#000" stroke-width="1" />
-                            <path d="M60,60 L36.1,10.9 L103.9,10.9 Z" fill="#ffffff" stroke="#000" stroke-width="1" />
-                            <path d="M60,60 L103.9,10.9 L120,60 Z" fill="#ffffff" stroke="#000" stroke-width="1" />
-                            <circle cx="60" cy="60" r="60" fill="none" stroke="#000" stroke-width="2" />
-                        </svg>
-                        <span style="font-size: 24px;">+</span>
-                        <svg width="120" height="120" viewBox="0 0 120 120">
-                            <path d="M60,60 L120,60 L103.9,109.1 Z" fill="#ff0000" stroke="#000" stroke-width="1" />
-                            <path d="M60,60 L103.9,109.1 L36.1,109.1 Z" fill="#ff0000" stroke="#000" stroke-width="1" />
-                            <path d="M60,60 L36.1,109.1 L0,60 Z" fill="#ffffff" stroke="#000" stroke-width="1" />
-                            <path d="M60,60 L0,60 L36.1,10.9 Z" fill="#ffffff" stroke="#000" stroke-width="1" />
-                            <path d="M60,60 L36.1,10.9 L103.9,10.9 Z" fill="#ffffff" stroke="#000" stroke-width="1" />
-                            <path d="M60,60 L103.9,10.9 L120,60 Z" fill="#ffffff" stroke="#000" stroke-width="1" />
-                            <circle cx="60" cy="60" r="60" fill="none" stroke="#000" stroke-width="2" />
-                        </svg>
-                        <span style="font-size: 24px;">=</span>
+                    <svg width="80" height="80" viewBox="0 0 80 80">
+                        <!-- 第一個圖形：1/8 -->
+                        <rect x="0" y="0" width="20" height="20" fill="#ff7675" stroke="#333" stroke-width="1" />
+                        <rect x="20" y="0" width="20" height="20" fill="none" stroke="#333" stroke-width="1" />
+                        <rect x="40" y="0" width="20" height="20" fill="none" stroke="#333" stroke-width="1" />
+                        <rect x="60" y="0" width="20" height="20" fill="none" stroke="#333" stroke-width="1" />
+                        <rect x="0" y="20" width="20" height="20" fill="none" stroke="#333" stroke-width="1" />
+                        <rect x="20" y="20" width="20" height="20" fill="none" stroke="#333" stroke-width="1" />
+                        <rect x="40" y="20" width="20" height="20" fill="none" stroke="#333" stroke-width="1" />
+                        <rect x="60" y="20" width="20" height="20" fill="none" stroke="#333" stroke-width="1" />
+                        <rect x="0" y="40" width="20" height="20" fill="none" stroke="#333" stroke-width="1" />
+                        <rect x="20" y="40" width="20" height="20" fill="none" stroke="#333" stroke-width="1" />
+                        <rect x="40" y="40" width="20" height="20" fill="none" stroke="#333" stroke-width="1" />
+                        <rect x="60" y="40" width="20" height="20" fill="none" stroke="#333" stroke-width="1" />
+                        <rect x="0" y="60" width="20" height="20" fill="none" stroke="#333" stroke-width="1" />
+                        <rect x="20" y="60" width="20" height="20" fill="none" stroke="#333" stroke-width="1" />
+                        <rect x="40" y="60" width="20" height="20" fill="none" stroke="#333" stroke-width="1" />
+                        <rect x="60" y="60" width="20" height="20" fill="none" stroke="#333" stroke-width="1" />
+                        <rect x="0" y="0" width="80" height="80" fill="none" stroke="#333" stroke-width="2" />
+                    </svg>
+                    <span style="font-size:18px">+</span>
+                    <svg width="80" height="80" viewBox="0 0 80 80">
+                        <!-- 第二個圖形：2/8 -->
+                        <rect x="0" y="0" width="20" height="20" fill="#ff7675" stroke="#333" stroke-width="1" />
+                        <rect x="20" y="0" width="20" height="20" fill="#ff7675" stroke="#333" stroke-width="1" />
+                        <rect x="40" y="0" width="20" height="20" fill="none" stroke="#333" stroke-width="1" />
+                        <rect x="60" y="0" width="20" height="20" fill="none" stroke="#333" stroke-width="1" />
+                        <rect x="0" y="20" width="20" height="20" fill="none" stroke="#333" stroke-width="1" />
+                        <rect x="20" y="20" width="20" height="20" fill="none" stroke="#333" stroke-width="1" />
+                        <rect x="40" y="20" width="20" height="20" fill="none" stroke="#333" stroke-width="1" />
+                        <rect x="60" y="20" width="20" height="20" fill="none" stroke="#333" stroke-width="1" />
+                        <rect x="0" y="40" width="20" height="20" fill="none" stroke="#333" stroke-width="1" />
+                        <rect x="20" y="40" width="20" height="20" fill="none" stroke="#333" stroke-width="1" />
+                        <rect x="40" y="40" width="20" height="20" fill="none" stroke="#333" stroke-width="1" />
+                        <rect x="60" y="40" width="20" height="20" fill="none" stroke="#333" stroke-width="1" />
+                        <rect x="0" y="60" width="20" height="20" fill="none" stroke="#333" stroke-width="1" />
+                        <rect x="20" y="60" width="20" height="20" fill="none" stroke="#333" stroke-width="1" />
+                        <rect x="40" y="60" width="20" height="20" fill="none" stroke="#333" stroke-width="1" />
+                        <rect x="60" y="60" width="20" height="20" fill="none" stroke="#333" stroke-width="1" />
+                        <rect x="0" y="0" width="80" height="80" fill="none" stroke="#333" stroke-width="2" />
+                    </svg>
+                </div>
+                <div class="answer-area">
+                    <div class="fraction-line-box">
+                        <input type="number" class="num-input n-in" placeholder="分子">
+                        <div class="fraction-line"></div>
+                        <input type="number" class="num-input d-in" placeholder="分母">
+                    </div>
+                    <button class="submit-ans">提交答案</button>
+                </div>
+                <div class="feedback"></div>
+            </div>
+
+            <!-- 進階題2：圖形計算 2/6 - 1/6 = 1/6 -->
+            <div class="question" data-correct-n="1" data-correct-d="6">
+                <h3>2. 計算：2/6 - 1/6 = ?</h3>
+                <div class="shape-container">
+                    <svg width="120" height="60" viewBox="0 0 120 60">
+                        <rect x="0" y="0" width="20" height="60" fill="#74b9ff" stroke="#333" stroke-width="1" />
+                        <rect x="20" y="0" width="20" height="60" fill="#74b9ff" stroke="#333" stroke-width="1" />
+                        <rect x="40" y="0" width="20" height="60" fill="none" stroke="#333" stroke-width="1" />
+                        <rect x="60" y="0" width="20" height="60" fill="none" stroke="#333" stroke-width="1" />
+                        <rect x="80" y="0" width="20" height="60" fill="none" stroke="#333" stroke-width="1" />
+                        <rect x="100" y="0" width="20" height="60" fill="none" stroke="#333" stroke-width="1" />
+                        <rect x="0" y="0" width="120" height="60" fill="none" stroke="#333" stroke-width="2" />
+                    </svg>
+                    <span style="font-size:18px">-</span>
+                    <svg width="120" height="60" viewBox="0 0 120 60">
+                        <rect x="0" y="0" width="20" height="60" fill="#74b9ff" stroke="#333" stroke-width="1" />
+                        <rect x="20" y="0" width="20" height="60" fill="none" stroke="#333" stroke-width="1" />
+                        <rect x="40" y="0" width="20" height="60" fill="none" stroke="#333" stroke-width="1" />
+                        <rect x="60" y="0" width="20" height="60" fill="none" stroke="#333" stroke-width="1" />
+                        <rect x="80" y="0" width="20" height="60" fill="none" stroke="#333" stroke-width="1" />
+                        <rect x="100" y="0" width="20" height="60" fill="none" stroke="#333" stroke-width="1" />
+                        <rect x="0" y="0" width="120" height="60" fill="none" stroke="#333" stroke-width="2" />
+                    </svg>
+                </div>
+                <div class="answer-area">
+                    <div class="fraction-line-box">
+                        <input type="number" class="num-input n-in" placeholder="分子">
+                        <div class="fraction-line"></div>
+                        <input type="number" class="num-input d-in" placeholder="分母">
+                    </div>
+                    <button class="submit-ans">提交答案</button>
+                </div>
+                <div class="feedback"></div>
+            </div>
+
+            <!-- 進階題3：圖形計算 3/9 + 2/9 = 5/9 -->
+            <div class="question" data-correct-n="5" data-correct-d="9">
+                <h3>3. 計算：3/9 + 2/9 = ?</h3>
+                <div class="shape-container">
+                    <svg width="90" height="90" viewBox="0 0 90 90">
+                        <rect x="0" y="0" width="30" height="30" fill="#00b894" stroke="#333" stroke-width="1" />
+                        <rect x="30" y="0" width="30" height="30" fill="#00b894" stroke="#333" stroke-width="1" />
+                        <rect x="60" y="0" width="30" height="30" fill="#00b894" stroke="#333" stroke-width="1" />
+                        <rect x="0" y="30" width="30" height="30" fill="none" stroke="#333" stroke-width="1" />
+                        <rect x="30" y="30" width="30" height="30" fill="none" stroke="#333" stroke-width="1" />
+                        <rect x="60" y="30" width="30" height="30" fill="none" stroke="#333" stroke-width="1" />
+                        <rect x="0" y="60" width="30" height="30" fill="none" stroke="#333" stroke-width="1" />
+                        <rect x="30" y="60" width="30" height="30" fill="none" stroke="#333" stroke-width="1" />
+                        <rect x="60" y="60" width="30" height="30" fill="none" stroke="#333" stroke-width="1" />
+                        <rect x="0" y="0" width="90" height="90" fill="none" stroke="#333" stroke-width="2" />
+                    </svg>
+                    <span style="font-size:18px">+</span>
+                    <svg width="90" height="90" viewBox="0 0 90 90">
+                        <rect x="0" y="0" width="30" height="30" fill="#00b894" stroke="#333" stroke-width="1" />
+                        <rect x="30" y="0" width="30" height="30" fill="#00b894" stroke="#333" stroke-width="1" />
+                        <rect x="60" y="0" width="30" height="30" fill="none" stroke="#333" stroke-width="1" />
+                        <rect x="0" y="30" width="30" height="30" fill="none" stroke="#333" stroke-width="1" />
+                        <rect x="30" y="30" width="30" height="30" fill="none" stroke="#333" stroke-width="1" />
+                        <rect x="60" y="30" width="30" height="30" fill="none" stroke="#333" stroke-width="1" />
+                        <rect x="0" y="60" width="30" height="30" fill="none" stroke="#333" stroke-width="1" />
+                        <rect x="30" y="60" width="30" height="30" fill="none" stroke="#333" stroke-width="1" />
+                        <rect x="60" y="60" width="30" height="30" fill="none" stroke="#333" stroke-width="1" />
+                        <rect x="0" y="0" width="90" height="90" fill="none" stroke="#333" stroke-width="2" />
+                    </svg>
+                </div>
+                <div class="answer-area">
+                    <div class="fraction-line-box">
+                        <input type="number" class="num-input n-in" placeholder="分子">
+                        <div class="fraction-line"></div>
+                        <input type="number" class="num-input d-in" placeholder="分母">
+                    </div>
+                    <button class="submit-ans">提交答案</button>
+                </div>
+                <div class="feedback"></div>
+            </div>
+
+            <!-- 進階題4：圖形計算 4/8 - 1/8 = 3/8 -->
+            <div class="question" data-correct-n="3" data-correct-d="8">
+                <h3>4. 計算：4/8 - 1/8 = ?</h3>
+                <div class="shape-container">
+                    <svg width="120" height="60" viewBox="0 0 120 60">
+                        <rect x="0" y="0" width="15" height="60" fill="#fdcb6e" stroke="#333" stroke-width="1" />
+                        <rect x="15" y="0" width="15" height="60" fill="#fdcb6e" stroke="#333" stroke-width="1" />
+                        <rect x="30" y="0" width="15" height="60" fill="#fdcb6e" stroke="#333" stroke-width="1" />
+                        <rect x="45" y="0" width="15" height="60" fill="#fdcb6e" stroke="#333" stroke-width="1" />
+                        <rect x="60" y="0" width="15" height="60" fill="none" stroke="#333" stroke-width="1" />
+                        <rect x="75" y="0" width="15" height="60" fill="none" stroke="#333" stroke-width="1" />
+                        <rect x="90" y="0" width="15" height="60" fill="none" stroke="#333" stroke-width="1" />
+                        <rect x="105" y="0" width="15" height="60" fill="none" stroke="#333" stroke-width="1" />
+                        <rect x="0" y="0" width="120" height="60" fill="none" stroke="#333" stroke-width="2" />
+                    </svg>
+                    <span style="font-size:18px">-</span>
+                    <svg width="120" height="60" viewBox="0 0 120 60">
+                        <rect x="0" y="0" width="15" height="60" fill="#fdcb6e" stroke="#333" stroke-width="1" />
+                        <rect x="15" y="0" width="15" height="60" fill="none" stroke="#333" stroke-width="1" />
+                        <rect x="30" y="0" width="15" height="60" fill="none" stroke="#333" stroke-width="1" />
+                        <rect x="45" y="0" width="15" height="60" fill="none" stroke="#333" stroke-width="1" />
+                        <rect x="60" y="0" width="15" height="60" fill="none" stroke="#333" stroke-width="1" />
+                        <rect x="75" y="0" width="15" height="60" fill="none" stroke="#333" stroke-width="1" />
+                        <rect x="90" y="0" width="15" height="60" fill="none" stroke="#333" stroke-width="1" />
+                        <rect x="105" y="0" width="15" height="60" fill="none" stroke="#333" stroke-width="1" />
+                        <rect x="0" y="0" width="120" height="60" fill="none" stroke="#333" stroke-width="2" />
+                    </svg>
+                </div>
+                <div class="answer-area">
+                    <div class="fraction-line-box">
+                        <input type="number" class="num-input n-in" placeholder="分子">
+                        <div class="fraction-line"></div>
+                        <input type="number" class="num-input d-in" placeholder="分母">
+                    </div>
+                    <button class="submit-ans">提交答案</button>
+                </div>
+                <div class="feedback"></div>
+            </div>
+
+            <!-- 進階題5：圖形計算 2/8 + 3/8 = 5/8 -->
+            <div class="question" data-correct-n="5" data-correct-d="8">
+                <h3>5. 計算：2/8 + 3/8 = ?</h3>
+                <div class="shape-container">
+                    <svg width="80" height="80" viewBox="0 0 80 80">
+                        <rect x="0" y="0" width="20" height="20" fill="#e17055" stroke="#333" stroke-width="1" />
+                        <rect x="20" y="0" width="20" height="20" fill="#e17055" stroke="#333" stroke-width="1" />
+                        <rect x="40" y="0" width="20" height="20" fill="none" stroke="#333" stroke-width="1" />
+                        <rect x="60" y="0" width="20" height="20" fill="none" stroke="#333" stroke-width="1" />
+                        <rect x="0" y="20" width="20" height="20" fill="none" stroke="#333" stroke-width="1" />
+                        <rect x="20" y="20" width="20" height="20" fill="none" stroke="#333" stroke-width="1" />
+                        <rect x="40" y="20" width="20" height="20" fill="none" stroke="#333" stroke-width="1" />
+                        <rect x="60" y="20" width="20" height="20" fill="none" stroke="#333" stroke-width="1" />
+                        <rect x="0" y="40" width="20" height="20" fill="none" stroke="#333" stroke-width="1" />
+                        <rect x="20" y="40" width="20" height="20" fill="none" stroke="#333" stroke-width="1" />
+                        <rect x="40" y="40" width="20" height="20" fill="none" stroke="#333" stroke-width="1" />
+                        <rect x="60" y="40" width="20" height="20" fill="none" stroke="#333" stroke-width="1" />
+                        <rect x="0" y="60" width="20" height="20" fill="none" stroke="#333" stroke-width="1" />
+                        <rect x="20" y="60" width="20" height="20" fill="none" stroke="#333" stroke-width="1" />
+                        <rect x="40" y="60" width="20" height="20" fill="none" stroke="#333" stroke-width="1" />
+                        <rect x="60" y="60" width="20" height="20" fill="none" stroke="#333" stroke-width="1" />
+                        <rect x="0" y="0" width="80" height="80" fill="none" stroke="#333" stroke-width="2" />
+                    </svg>
+                    <span style="font-size:18px">+</span>
+                    <svg width="80" height="80" viewBox="0 0 80 80">
+                        <rect x="0" y="0" width="20" height="20" fill="#e17055" stroke="#333" stroke-width="1" />
+                        <rect x="20" y="0" width="20" height="20" fill="#e17055" stroke="#333" stroke-width="1" />
+                        <rect x="40" y="0" width="20" height="20" fill="#e17055" stroke="#333" stroke-width="1" />
+                        <rect x="60" y="0" width="20" height="20" fill="none" stroke="#333" stroke-width="1" />
+                        <rect x="0" y="20" width="20" height="20" fill="none" stroke="#333" stroke-width="1" />
+                        <rect x="20" y="20" width="20" height="20" fill="none" stroke="#333" stroke-width="1" />
+                        <rect x="40" y="20" width="20" height="20" fill="none" stroke="#333" stroke-width="1" />
+                        <rect x="60" y="20" width="20" height="20" fill="none" stroke="#333" stroke-width="1" />
+                        <rect x="0" y="40" width="20" height="20" fill="none" stroke="#333" stroke-width="1" />
+                        <rect x="20" y="40" width="20" height="20" fill="none" stroke="#333" stroke-width="1" />
+                        <rect x="40" y="40" width="20" height="20" fill="none" stroke="#333" stroke-width="1" />
+                        <rect x="60" y="40" width="20" height="20" fill="none" stroke="#333" stroke-width="1" />
+                        <rect x="0" y="60" width="20" height="20" fill="none" stroke="#333" stroke-width="1" />
+                        <rect x="20" y="60" width="20" height="20" fill="none" stroke="#333" stroke-width="1" />
+                        <rect x="40" y="60" width="20" height="20" fill="none" stroke="#333" stroke-width="1" />
+                        <rect x="60" y="60" width="20" height="20" fill="none" stroke="#333" stroke-width="1" />
+                        <rect x="0" y="0" width="80" height="80" fill="none" stroke="#333" stroke-width="2" />
+                    </svg>
+                </div>
+                <div class="answer-area">
+                    <div class="fraction-line-box">
+                        <input type="number" class="num-input n-in" placeholder="分子">
+                        <div class="fraction-line"></div>
+                        <input type="number" class="num-input d-in" placeholder="分母">
+                    </div>
+                    <button class="submit-ans">提交答案</button>
+                </div>
+                <div class="feedback"></div>
+            </div>
+
+            <!-- 進階題6：圖形計算 5/10 - 2/10 = 3/10 -->
+            <div class="question" data-correct-n="3" data-correct-d="10">
+                <h3>6. 計算：5/10 - 2/10 = ?</h3>
+                <div class="shape-container">
+                    <svg width="150" height="60" viewBox="0 0 150 60">
+                        <rect x="0" y="0" width="15" height="60" fill="#a29bfe" stroke="#333" stroke-width="1" />
+                        <rect x="15" y="0" width="15" height="60" fill="#a29bfe" stroke="#333" stroke-width="1" />
+                        <rect x="30" y="0" width="15" height="60" fill="#a29bfe" stroke="#333" stroke-width="1" />
+                        <rect x="45" y="0" width="15" height="60" fill="#a29bfe" stroke="#333" stroke-width="1" />
+                        <rect x="60" y="0" width="15" height="60" fill="#a29bfe" stroke="#333" stroke-width="1" />
+                        <rect x="75" y="0" width="15" height="60" fill="none" stroke="#333" stroke-width="1" />
+                        <rect x="90" y="0" width="15" height="60" fill="none" stroke="#333" stroke-width="1" />
+                        <rect x="105" y="0" width="15" height="60" fill="none" stroke="#333" stroke-width="1" />
+                        <rect x="120" y="0" width="15" height="60" fill="none" stroke="#333" stroke-width="1" />
+                        <rect x="135" y="0" width="15" height="60" fill="none" stroke="#333" stroke-width="1" />
+                        <rect x="0" y="0" width="150" height="60" fill="none" stroke="#333" stroke-width="2" />
+                    </svg>
+                    <span style="font-size:18px">-</span>
+                    <svg width="150" height="60" viewBox="0 0 150 60">
+                        <rect x="0" y="0" width="15" height="60" fill="#a29bfe" stroke="#333" stroke-width="1" />
+                        <rect x="15" y="0" width="15" height="60" fill="#a29bfe" stroke="#333" stroke-width="1" />
+                        <rect x="30" y="0" width="15" height="60" fill="none" stroke="#333" stroke-width="1" />
+                        <rect x="45" y="0" width="15" height="60" fill="none" stroke="#333" stroke-width="1" />
+                        <rect x="60" y="0" width="15" height="60" fill="none" stroke="#333" stroke-width="1" />
+                        <rect x="75" y="0" width="15" height="60" fill="none" stroke="#333" stroke-width="1" />
+                        <rect x="90" y="0" width="15" height="60" fill="none" stroke="#333" stroke-width="1" />
+                        <rect x="105" y="0" width="15" height="60" fill="none" stroke="#333" stroke-width="1" />
+                        <rect x="120" y="0" width="15" height="60" fill="none" stroke="#333" stroke-width="1" />
+                        <rect x="135" y="0" width="15" height="60" fill="none" stroke="#333" stroke-width="1" />
+                        <rect x="0" y="0" width="150" height="60" fill="none" stroke="#333" stroke-width="2" />
+                    </svg>
+                </div>
+                <div class="answer-area">
+                    <div class="fraction-line-box">
+                        <input type="number" class="num-input n-in" placeholder="分子">
+                        <div class="fraction-line"></div>
+                        <input type="number" class="num-input d-in" placeholder="分母">
+                    </div>
+                    <button class="submit-ans">提交答案</button>
+                </div>
+                <div class="feedback"></div>
+            </div>
+
+            <!-- 進階題7：圖形計算 4/12 + 3/12 = 7/12 -->
+            <div class="question" data-correct-n="7" data-correct-d="12">
+                <h3>7. 計算：4/12 + 3/12 = ?</h3>
+                <div class="shape-container">
+                    <svg width="90" height="90" viewBox="0 0 90 90">
+                        <rect x="0" y="0" width="30" height="22.5" fill="#00cec9" stroke="#333" stroke-width="1" />
+                        <rect x="30" y="0" width="30" height="22.5" fill="#00cec9" stroke="#333" stroke-width="1" />
+                        <rect x="60" y="0" width="30" height="22.5" fill="#00cec9" stroke="#333" stroke-width="1" />
+                        <rect x="0" y="22.5" width="30" height="22.5" fill="#00cec9" stroke="#333" stroke-width="1" />
+                        <rect x="30" y="22.5" width="30" height="22.5" fill="none" stroke="#333" stroke-width="1" />
+                        <rect x="60" y="22.5" width="30" height="22.5" fill="none" stroke="#333" stroke-width="1" />
+                        <rect x="0" y="45" width="30" height="22.5" fill="none" stroke="#333" stroke-width="1" />
+                        <rect x="30" y="45" width="30" height="22.5" fill="none" stroke="#333" stroke-width="1" />
+                        <rect x="60" y="45" width="30" height="22.5" fill="none" stroke="#333" stroke-width="1" />
+                        <rect x="0" y="67.5" width="30" height="22.5" fill="none" stroke="#333" stroke-width="1" />
+                        <rect x="30" y="67.5" width="30" height="22.5" fill="none" stroke="#333" stroke-width="1" />
+                        <rect x="60" y="67.5" width="30" height="22.5" fill="none" stroke="#333" stroke-width="1" />
+                        <rect x="0" y="0" width="90" height="90" fill="none" stroke="#333" stroke-width="2" />
+                    </svg>
+                    <span style="font-size:18px">+</span>
+                    <svg width="90" height="90" viewBox="0 0 90 90">
+                        <rect x="0" y="0" width="30" height="22.5" fill="#00cec9" stroke="#333" stroke-width="1" />
+                        <rect x="30" y="0" width="30" height="22.5" fill="#00cec9" stroke="#333" stroke-width="1" />
+                        <rect x="60" y="0" width="30" height="22.5" fill="#00cec9" stroke="#333" stroke-width="1" />
+                        <rect x="0" y="22.5" width="30" height="22.5" fill="none" stroke="#333" stroke-width="1" />
+                        <rect x="30" y="22.5" width="30" height="22.5" fill="none" stroke="#333" stroke-width="1" />
+                        <rect x="60" y="22.5" width="30" height="22.5" fill="none" stroke="#333" stroke-width="1" />
+                        <rect x="0" y="45" width="30" height="22.5" fill="none" stroke="#333" stroke-width="1" />
+                        <rect x="30" y="45" width="30" height="22.5" fill="none" stroke="#333" stroke-width="1" />
+                        <rect x="60" y="45" width="30" height="22.5" fill="none" stroke="#333" stroke-width="1" />
+                        <rect x="0" y="67.5" width="30" height="22.5" fill="none" stroke="#333" stroke-width="1" />
+                        <rect x="30" y="67.5" width="30" height="22.5" fill="none" stroke="#333" stroke-width="1" />
+                        <rect x="60" y="67.5" width="30" height="22.5" fill="none" stroke="#333" stroke-width="1" />
+                        <rect x="0" y="0" width="90" height="90" fill="none" stroke="#333" stroke-width="2" />
+                    </svg>
+                </div>
+                <div class="answer-area">
+                    <div class="fraction-line-box">
+                        <input type="number" class="num-input n-in" placeholder="分子">
+                        <div class="fraction-line"></div>
+                        <input type="number" class="num-input d-in" placeholder="分母">
+                    </div>
+                    <button class="submit-ans">提交答案</button>
+                </div>
+                <div class="feedback"></div>
+            </div>
+
+            <!-- 進階題8：圖形計算 9/12 + 2/12 = 11/12 -->
+            <div class="question" data-correct-n="11" data-correct-d="12">
+                <h3>8. 計算：9/12 + 2/12 = ?</h3>
+                <div class="shape-container">
+                    <svg width="180" height="60" viewBox="0 0 180 60">
+                        <!-- 第一個圖形：9/12 -->
+                        <rect x="0" y="0" width="15" height="60" fill="#fab1a0" stroke="#333" stroke-width="1" />
+                        <rect x="15" y="0" width="15" height="60" fill="#fab1a0" stroke="#333" stroke-width="1" />
+                        <rect x="30" y="0" width="15" height="60" fill="#fab1a0" stroke="#333" stroke-width="1" />
+                        <rect x="45" y="0" width="15" height="60" fill="#fab1a0" stroke="#333" stroke-width="1" />
+                        <rect x="60" y="0" width="15" height="60" fill="#fab1a0" stroke="#333" stroke-width="1" />
+                        <rect x="75" y="0" width="15" height="60" fill="#fab1a0" stroke="#333" stroke-width="1" />
+                        <rect x="90" y="0" width="15" height="60" fill="#fab1a0" stroke="#333" stroke-width="1" />
+                        <rect x="105" y="0" width="15" height="60" fill="#fab1a0" stroke="#333" stroke-width="1" />
+                        <rect x="120" y="0" width="15" height="60" fill="#fab1a0" stroke="#333" stroke-width="1" />
+                        <rect x="135" y="0" width="15" height="60" fill="none" stroke="#333" stroke-width="1" />
+                        <rect x="150" y="0" width="15" height="60" fill="none" stroke="#333" stroke-width="1" />
+                        <rect x="165" y="0" width="15" height="60" fill="none" stroke="#333" stroke-width="1" />
+                        <rect x="0" y="0" width="180" height="60" fill="none" stroke="#333" stroke-width="2" />
+                    </svg>
+                    <span style="font-size:18px">+</span>
+                    <svg width="180" height="60" viewBox="0 0 180 60">
+                        <!-- 第二個圖形：2/12 -->
+                        <rect x="0" y="0" width="15" height="60" fill="#fab1a0" stroke="#333" stroke-width="1" />
+                        <rect x="15" y="0" width="15" height="60" fill="#fab1a0" stroke="#333" stroke-width="1" />
+                        <rect x="30" y="0" width="15" height="60" fill="none" stroke="#333" stroke-width="1" />
+                        <rect x="45" y="0" width="15" height="60" fill="none" stroke="#333" stroke-width="1" />
+                        <rect x="60" y="0" width="15" height="60" fill="none" stroke="#333" stroke-width="1" />
+                        <rect x="75" y="0" width="15" height="60" fill="none" stroke="#333" stroke-width="1" />
+                        <rect x="90" y="0" width="15" height="60" fill="none" stroke="#333" stroke-width="1" />
+                        <rect x="105" y="0" width="15" height="60" fill="none" stroke="#333" stroke-width="1" />
+                        <rect x="120" y="0" width="15" height="60" fill="none" stroke="#333" stroke-width="1" />
+                        <rect x="135" y="0" width="15" height="60" fill="none" stroke="#333" stroke-width="1" />
+                        <rect x="150" y="0" width="15" height="60" fill="none" stroke="#333" stroke-width="1" />
+                        <rect x="165" y="0" width="15" height="60" fill="none" stroke="#333" stroke-width="1" />
+                        <rect x="0" y="0" width="180" height="60" fill="none" stroke="#333" stroke-width="2" />
+                    </svg>
+                </div>
+                <div class="answer-area">
+                    <div class="fraction-line-box">
+                        <input type="number" class="num-input n-in" placeholder="分子">
+                        <div class="fraction-line"></div>
+                        <input type="number" class="num-input d-in" placeholder="分母">
+                    </div>
+                    <button class="submit-ans">提交答案</button>
+                </div>
+                <div class="feedback"></div>
+            </div>
+
+            <!-- 進階題9：圖形計算 3/6 + 2/6 = 5/6 -->
+            <div class="question" data-correct-n="5" data-correct-d="6">
+                <h3>9. 計算：3/6 + 2/6 = ?</h3>
+                <div class="shape-container">
+                    <svg width="90" height="60" viewBox="0 0 90 60">
+                        <rect x="0" y="0" width="15" height="60" fill="#74b9ff" stroke="#333" stroke-width="1" />
+                        <rect x="15" y="0" width="15" height="60" fill="#74b9ff" stroke="#333" stroke-width="1" />
+                        <rect x="30" y="0" width="15" height="60" fill="#74b9ff" stroke="#333" stroke-width="1" />
+                        <rect x="45" y="0" width="15" height="60" fill="none" stroke="#333" stroke-width="1" />
+                        <rect x="60" y="0" width="15" height="60" fill="none" stroke="#333" stroke-width="1" />
+                        <rect x="75" y="0" width="15" height="60" fill="none" stroke="#333" stroke-width="1" />
+                        <rect x="0" y="0" width="90" height="60" fill="none" stroke="#333" stroke-width="2" />
+                    </svg>
+                    <span style="font-size:18px">+</span>
+                    <svg width="90" height="60" viewBox="0 0 90 60">
+                        <rect x="0" y="0" width="15" height="60" fill="#74b9ff" stroke="#333" stroke-width="1" />
+                        <rect x="15" y="0" width="15" height="60" fill="#74b9ff" stroke="#333" stroke-width="1" />
+                        <rect x="30" y="0" width="15" height="60" fill="none" stroke="#333" stroke-width="1" />
+                        <rect x="45" y="0" width="15" height="60" fill="none" stroke="#333" stroke-width="1" />
+                        <rect x="60" y="0" width="15" height="60" fill="none" stroke="#333" stroke-width="1" />
+                        <rect x="75" y="0" width="15" height="60" fill="none" stroke="#333" stroke-width="1" />
+                        <rect x="0" y="0" width="90" height="60" fill="none" stroke="#333" stroke-width="2" />
+                    </svg>
+                </div>
+                <div class="answer-area">
+                    <div class="fraction-line-box">
+                        <input type="number" class="num-input n-in" placeholder="分子">
+                        <div class="fraction-line"></div>
+                        <input type="number" class="num-input d-in" placeholder="分母">
+                    </div>
+                    <button class="submit-ans">提交答案</button>
+                </div>
+                <div class="feedback"></div>
+            </div>
+
+            <!-- 進階題10：圖形計算 7/14 - 4/14 = 3/14 -->
+            <div class="question" data-correct-n="3" data-correct-d="14">
+                <h3>10. 計算：7/14 - 4/14 = ?</h3>
+                <div class="shape-container">
+                    <svg width="210" height="60" viewBox="0 0 210 60">
+                        <rect x="0" y="0" width="15" height="60" fill="#ff7675" stroke="#333" stroke-width="1" />
+                        <rect x="15" y="0" width="15" height="60" fill="#ff7675" stroke="#333" stroke-width="1" />
+                        <rect x="30" y="0" width="15" height="60" fill="#ff7675" stroke="#333" stroke-width="1" />
+                        <rect x="45" y="0" width="15" height="60" fill="#ff7675" stroke="#333" stroke-width="1" />
+                        <rect x="60" y="0" width="15" height="60" fill="#ff7675" stroke="#333" stroke-width="1" />
+                        <rect x="75" y="0" width="15" height="60" fill="#ff7675" stroke="#333" stroke-width="1" />
+                        <rect x="90" y="0" width="15" height="60" fill="#ff7675" stroke="#333" stroke-width="1" />
+                        <rect x="105" y="0" width="15" height="60" fill="none" stroke="#333" stroke-width="1" />
+                        <rect x="120" y="0" width="15" height="60" fill="none" stroke="#333" stroke-width="1" />
+                        <rect x="135" y="0" width="15" height="60" fill="none" stroke="#333" stroke-width="1" />
+                        <rect x="150" y="0" width="15" height="60" fill="none" stroke="#333" stroke-width="1" />
+                        <rect x="165" y="0" width="15" height="60" fill="none" stroke="#333" stroke-width="1" />
+                        <rect x="180" y="0" width="15" height="60" fill="none" stroke="#333" stroke-width="1" />
+                        <rect x="195" y="0" width="15" height="60" fill="none" stroke="#333" stroke-width="1" />
+                        <rect x="0" y="0" width="210" height="60" fill="none" stroke="#333" stroke-width="2" />
+                    </svg>
+                    <span style="font-size:18px">-</span>
+                    <svg width="210" height="60" viewBox="0 0 210 60">
+                        <rect x="0" y="0" width="15" height="60" fill="#ff7675" stroke="#333" stroke-width="1" />
+                        <rect x="15" y="0" width="15" height="60" fill="#ff7675" stroke="#333" stroke-width="1" />
+                        <rect x="30" y="0" width="15" height="60" fill="#ff7675" stroke="#333" stroke-width="1" />
+                        <rect x="45" y="0" width="15" height="60" fill="#ff7675" stroke="#333" stroke-width="1" />
+                        <rect x="60" y="0" width="15" height="60" fill="none" stroke="#333" stroke-width="1" />
+                        <rect x="75" y="0" width="15" height="60" fill="none" stroke="#333" stroke-width="1" />
+                        <rect x="90" y="0" width="15" height="60" fill="none" stroke="#333" stroke-width="1" />
+                        <rect x="105" y="0" width="15" height="60" fill="none" stroke="#333" stroke-width="1" />
+                        <rect x="120" y="0" width="15" height="60" fill="none" stroke="#333" stroke-width="1" />
+                        <rect x="135" y="0" width="15" height="60" fill="none" stroke="#333" stroke-width="1" />
+                        <rect x="150" y="0" width="15" height="60" fill="none" stroke="#333" stroke-width="1" />
+                        <rect x="165" y="0" width="15" height="60" fill="none" stroke="#333" stroke-width="1" />
+                        <rect x="180" y="0" width="15" height="60" fill="none" stroke="#333" stroke-width="1" />
+                        <rect x="195" y="0" width="15" height="60" fill="none" stroke="#333" stroke-width="1" />
+                        <rect x="0" y="0" width="210" height="60" fill="none" stroke="#333" stroke-width="2" />
+                    </svg>
+                </div>
+                <div class="answer-area">
+                    <div class="fraction-line-box">
+                        <input type="number" class="num-input n-in" placeholder="分子">
+                        <div class="fraction-line"></div>
+                        <input type="number" class="num-input d-in" placeholder="分母">
+                    </div>
+                    <button class="submit-ans">提交答案</button>
+                </div>
+                <div class="feedback"></div>
+            </div>
+
+            <!-- 進階題11：豎式計算 1/5 + 2/5 = 3/5 -->
+            <div class="question" data-correct-n="3" data-correct-d="5">
+                <h3>11. 計算：1/5 + 2/5 = ?</h3>
+                <div class="shape-container">
+                    <div class="vertical-fraction">
+                        <span>1</span>
+                        <div class="line"></div>
+                        <span>5</span>
+                    </div>
+                    <span style="font-size:18px">+</span>
+                    <div class="vertical-fraction">
+                        <span>2</span>
+                        <div class="line"></div>
+                        <span>5</span>
+                    </div>
+                    <span style="font-size:18px">=</span>
+                    <div class="vertical-fraction" style="border:1px dashed #ccc; padding:5px; min-width:40px;">
+                        <span>?</span>
+                        <div class="line"></div>
+                        <span>?</span>
                     </div>
                 </div>
                 <div class="answer-area">
-                    <input type="number" class="num-input numerator" placeholder="分子">
-                    <div class="fraction-line"></div>
-                    <input type="number" class="num-input denominator" placeholder="分母">
+                    <div class="fraction-line-box">
+                        <input type="number" class="num-input n-in" placeholder="分子">
+                        <div class="fraction-line"></div>
+                        <input type="number" class="num-input d-in" placeholder="分母">
+                    </div>
                     <button class="submit-ans">提交答案</button>
                 </div>
                 <div class="feedback"></div>
             </div>
 
-            <div class="question" data-correct="4/8-1/8=3/8">
-                <h3>進階題2：請看下方兩個正方形，計算 4/8 - 1/8 = ？（圖1：正方形填4份/8份；圖2：正方形填1份/8份）</h3>
+            <!-- 進階題12：豎式計算 4/7 - 1/7 = 3/7 -->
+            <div class="question" data-correct-n="3" data-correct-d="7">
+                <h3>12. 計算：4/7 - 1/7 = ?</h3>
                 <div class="shape-container">
-                    <div style="display: flex; gap: 20px;">
-                        <svg width="120" height="120" viewBox="0 0 120 120">
-                            <rect x="0" y="0" width="30" height="30" fill="#ff0000" stroke="#000" stroke-width="1" />
-                            <rect x="30" y="0" width="30" height="30" fill="#ff0000" stroke="#000" stroke-width="1" />
-                            <rect x="60" y="0" width="30" height="30" fill="#ffffff" stroke="#000" stroke-width="1" />
-                            <rect x="90" y="0" width="30" height="30" fill="#ffffff" stroke="#000" stroke-width="1" />
-                            <rect x="0" y="30" width="30" height="30" fill="#ff0000" stroke="#000" stroke-width="1" />
-                            <rect x="30" y="30" width="30" height="30" fill="#ff0000" stroke="#000" stroke-width="1" />
-                            <rect x="60" y="30" width="30" height="30" fill="#ffffff" stroke="#000" stroke-width="1" />
-                            <rect x="90" y="30" width="30" height="30" fill="#ffffff" stroke="#000" stroke-width="1" />
-                            <rect x="0" y="60" width="30" height="30" fill="#ffffff" stroke="#000" stroke-width="1" />
-                            <rect x="30" y="60" width="30" height="30" fill="#ffffff" stroke="#000" stroke-width="1" />
-                            <rect x="60" y="60" width="30" height="30" fill="#ffffff" stroke="#000" stroke-width="1" />
-                            <rect x="90" y="60" width="30" height="30" fill="#ffffff" stroke="#000" stroke-width="1" />
-                            <rect x="0" y="90" width="30" height="30" fill="#ffffff" stroke="#000" stroke-width="1" />
-                            <rect x="30" y="90" width="30" height="30" fill="#ffffff" stroke="#000" stroke-width="1" />
-                            <rect x="60" y="90" width="30" height="30" fill="#ffffff" stroke="#000" stroke-width="1" />
-                            <rect x="90" y="90" width="30" height="30" fill="#ffffff" stroke="#000" stroke-width="1" />
-                            <rect x="0" y="0" width="120" height="120" fill="none" stroke="#000" stroke-width="2" />
-                        </svg>
-                        <span style="font-size: 24px;">-</span>
-                        <svg width="120" height="120" viewBox="0 0 120 120">
-                            <rect x="0" y="0" width="30" height="30" fill="#ff0000" stroke="#000" stroke-width="1" />
-                            <rect x="30" y="0" width="30" height="30" fill="#ffffff" stroke="#000" stroke-width="1" />
-                            <rect x="60" y="0" width="30" height="30" fill="#ffffff" stroke="#000" stroke-width="1" />
-                            <rect x="90" y="0" width="30" height="30" fill="#ffffff" stroke="#000" stroke-width="1" />
-                            <rect x="0" y="30" width="30" height="30" fill="#ffffff" stroke="#000" stroke-width="1" />
-                            <rect x="30" y="30" width="30" height="30" fill="#ffffff" stroke="#000" stroke-width="1" />
-                            <rect x="60" y="30" width="30" height="30" fill="#ffffff" stroke="#000" stroke-width="1" />
-                            <rect x="90" y="30" width="30" height="30" fill="#ffffff" stroke="#000" stroke-width="1" />
-                            <rect x="0" y="60" width="30" height="30" fill="#ffffff" stroke="#000" stroke-width="1" />
-                            <rect x="30" y="60" width="30" height="30" fill="#ffffff" stroke="#000" stroke-width="1" />
-                            <rect x="60" y="60" width="30" height="30" fill="#ffffff" stroke="#000" stroke-width="1" />
-                            <rect x="90" y="60" width="30" height="30" fill="#ffffff" stroke="#000" stroke-width="1" />
-                            <rect x="0" y="90" width="30" height="30" fill="#ffffff" stroke="#000" stroke-width="1" />
-                            <rect x="30" y="90" width="30" height="30" fill="#ffffff" stroke="#000" stroke-width="1" />
-                            <rect x="60" y="90" width="30" height="30" fill="#ffffff" stroke="#000" stroke-width="1" />
-                            <rect x="90" y="90" width="30" height="30" fill="#ffffff" stroke="#000" stroke-width="1" />
-                            <rect x="0" y="0" width="120" height="120" fill="none" stroke="#000" stroke-width="2" />
-                        </svg>
-                        <span style="font-size: 24px;">=</span>
+                    <div class="vertical-fraction">
+                        <span>4</span>
+                        <div class="line"></div>
+                        <span>7</span>
+                    </div>
+                    <span style="font-size:18px">-</span>
+                    <div class="vertical-fraction">
+                        <span>1</span>
+                        <div class="line"></div>
+                        <span>7</span>
+                    </div>
+                    <span style="font-size:18px">=</span>
+                    <div class="vertical-fraction" style="border:1px dashed #ccc; padding:5px; min-width:40px;">
+                        <span>?</span>
+                        <div class="line"></div>
+                        <span>?</span>
                     </div>
                 </div>
                 <div class="answer-area">
-                    <input type="number" class="num-input numerator" placeholder="分子">
-                    <div class="fraction-line"></div>
-                    <input type="number" class="num-input denominator" placeholder="分母">
+                    <div class="fraction-line-box">
+                        <input type="number" class="num-input n-in" placeholder="分子">
+                        <div class="fraction-line"></div>
+                        <input type="number" class="num-input d-in" placeholder="分母">
+                    </div>
                     <button class="submit-ans">提交答案</button>
                 </div>
                 <div class="feedback"></div>
             </div>
 
-            <!-- 進階題3-10 簡化示例（完整代碼含全部10道帶圖題，此處為篇幅簡化） -->
-            <div class="question" data-correct="2/4+1/4=3/4">
-                <h3>進階題3：計算 2/4 + 1/4 = ？（附菱形輔助圖）</h3>
+            <!-- 進階題13：豎式計算 2/9 + 3/9 = 5/9 -->
+            <div class="question" data-correct-n="5" data-correct-d="9">
+                <h3>13. 計算：2/9 + 3/9 = ?</h3>
                 <div class="shape-container">
-                    <div style="display: flex; gap: 20px;">
-                        <svg width="120" height="120" viewBox="0 0 120 120">
-                            <path d="M60,15 L97.5,60 L60,60 Z" fill="#ff0000" stroke="#000" stroke-width="1" />
-                            <path d="M60,60 L97.5,60 L60,105 Z" fill="#ff0000" stroke="#000" stroke-width="1" />
-                            <path d="M60,60 L22.5,60 L60,105 Z" fill="#ffffff" stroke="#000" stroke-width="1" />
-                            <path d="M60,15 L22.5,60 L60,60 Z" fill="#ffffff" stroke="#000" stroke-width="1" />
-                            <polygon points="60,15 105,60 60,105 15,60" fill="none" stroke="#000" stroke-width="2" />
-                        </svg>
-                        <span style="font-size: 24px;">+</span>
-                        <svg width="120" height="120" viewBox="0 0 120 120">
-                            <path d="M60,15 L97.5,60 L60,60 Z" fill="#ff0000" stroke="#000" stroke-width="1" />
-                            <path d="M60,60 L97.5,60 L60,105 Z" fill="#ffffff" stroke="#000" stroke-width="1" />
-                            <path d="M60,60 L22.5,60 L60,105 Z" fill="#ffffff" stroke="#000" stroke-width="1" />
-                            <path d="M60,15 L22.5,60 L60,60 Z" fill="#ffffff" stroke="#000" stroke-width="1" />
-                            <polygon points="60,15 105,60 60,105 15,60" fill="none" stroke="#000" stroke-width="2" />
-                        </svg>
-                        <span style="font-size: 24px;">=</span>
+                    <div class="vertical-fraction">
+                        <span>2</span>
+                        <div class="line"></div>
+                        <span>9</span>
+                    </div>
+                    <span style="font-size:18px">+</span>
+                    <div class="vertical-fraction">
+                        <span>3</span>
+                        <div class="line"></div>
+                        <span>9</span>
+                    </div>
+                    <span style="font-size:18px">=</span>
+                    <div class="vertical-fraction" style="border:1px dashed #ccc; padding:5px; min-width:40px;">
+                        <span>?</span>
+                        <div class="line"></div>
+                        <span>?</span>
                     </div>
                 </div>
                 <div class="answer-area">
-                    <input type="number" class="num-input numerator" placeholder="分子">
-                    <div class="fraction-line"></div>
-                    <input type="number" class="num-input denominator" placeholder="分母">
+                    <div class="fraction-line-box">
+                        <input type="number" class="num-input n-in" placeholder="分子">
+                        <div class="fraction-line"></div>
+                        <input type="number" class="num-input d-in" placeholder="分母">
+                    </div>
                     <button class="submit-ans">提交答案</button>
                 </div>
                 <div class="feedback"></div>
             </div>
 
-            <!-- 進階題11-15：純分數計算 -->
-            <div class="question" data-correct="7/9">
-                <h3>進階題11：純分數計算：2/9 + 5/9 = ？</h3>
+            <!-- 進階題14：豎式計算 7/8 - 4/8 = 3/8 -->
+            <div class="question" data-correct-n="3" data-correct-d="8">
+                <h3>14. 計算：7/8 - 4/8 = ?</h3>
                 <div class="shape-container">
-                    <div class="no-shape">2/9 + 5/9 = ?</div>
+                    <div class="vertical-fraction">
+                        <span>7</span>
+                        <div class="line"></div>
+                        <span>8</span>
+                    </div>
+                    <span style="font-size:18px">-</span>
+                    <div class="vertical-fraction">
+                        <span>4</span>
+                        <div class="line"></div>
+                        <span>8</span>
+                    </div>
+                    <span style="font-size:18px">=</span>
+                    <div class="vertical-fraction" style="border:1px dashed #ccc; padding:5px; min-width:40px;">
+                        <span>?</span>
+                        <div class="line"></div>
+                        <span>?</span>
+                    </div>
                 </div>
                 <div class="answer-area">
-                    <input type="number" class="num-input numerator" placeholder="分子">
-                    <div class="fraction-line"></div>
-                    <input type="number" class="num-input denominator" placeholder="分母">
+                    <div class="fraction-line-box">
+                        <input type="number" class="num-input n-in" placeholder="分子">
+                        <div class="fraction-line"></div>
+                        <input type="number" class="num-input d-in" placeholder="分母">
+                    </div>
                     <button class="submit-ans">提交答案</button>
                 </div>
                 <div class="feedback"></div>
             </div>
 
-            <div class="question" data-correct="2/7">
-                <h3>進階題12：純分數計算：6/7 - 4/7 = ？</h3>
+            <!-- 進階題15：豎式計算 5/12 + 2/12 = 7/12 -->
+            <div class="question" data-correct-n="7" data-correct-d="12">
+                <h3>15. 計算：5/12 + 2/12 = ?</h3>
                 <div class="shape-container">
-                    <div class="no-shape">6/7 - 4/7 = ?</div>
+                    <div class="vertical-fraction">
+                        <span>5</span>
+                        <div class="line"></div>
+                        <span>12</span>
+                    </div>
+                    <span style="font-size:18px">+</span>
+                    <div class="vertical-fraction">
+                        <span>2</span>
+                        <div class="line"></div>
+                        <span>12</span>
+                    </div>
+                    <span style="font-size:18px">=</span>
+                    <div class="vertical-fraction" style="border:1px dashed #ccc; padding:5px; min-width:40px;">
+                        <span>?</span>
+                        <div class="line"></div>
+                        <span>?</span>
+                    </div>
                 </div>
                 <div class="answer-area">
-                    <input type="number" class="num-input numerator" placeholder="分子">
-                    <div class="fraction-line"></div>
-                    <input type="number" class="num-input denominator" placeholder="分母">
+                    <div class="fraction-line-box">
+                        <input type="number" class="num-input n-in" placeholder="分子">
+                        <div class="fraction-line"></div>
+                        <input type="number" class="num-input d-in" placeholder="分母">
+                    </div>
                     <button class="submit-ans">提交答案</button>
                 </div>
                 <div class="feedback"></div>
             </div>
 
-            <div class="question" data-correct="8/10">
-                <h3>進階題13：純分數計算：3/10 + 5/10 = ？</h3>
+            <!-- 應用題16：文字題 -->
+            <div class="question" data-correct-n="3" data-correct-d="4">
+                <h3>16. 小明有一個披薩，他吃了 1/4，妹妹吃了 2/4，他們一共吃了幾分之幾個披薩？</h3>
                 <div class="shape-container">
-                    <div class="no-shape">3/10 + 5/10 = ?</div>
+                    <div class="word-problem">
+                        計算：1/4 + 2/4 = ?
+                    </div>
                 </div>
                 <div class="answer-area">
-                    <input type="number" class="num-input numerator" placeholder="分子">
-                    <div class="fraction-line"></div>
-                    <input type="number" class="num-input denominator" placeholder="分母">
+                    <div class="fraction-line-box">
+                        <input type="number" class="num-input n-in" placeholder="分子">
+                        <div class="fraction-line"></div>
+                        <input type="number" class="num-input d-in" placeholder="分母">
+                    </div>
                     <button class="submit-ans">提交答案</button>
                 </div>
                 <div class="feedback"></div>
             </div>
 
-            <div class="question" data-correct="1/5">
-                <h3>進階題14：純分數計算：4/5 - 3/5 = ？</h3>
+            <!-- 應用題17：文字題 5/7 - 2/7 = 3/7 -->
+            <div class="question" data-correct-n="3" data-correct-d="7">
+                <h3>17. 一杯果汁有 5/7 公升，小明喝掉了 2/7 公升，還剩下幾分之幾公升？</h3>
                 <div class="shape-container">
-                    <div class="no-shape">4/5 - 3/5 = ?</div>
+                    <div class="word-problem">
+                        計算：5/7 - 2/7 = ?
+                    </div>
                 </div>
                 <div class="answer-area">
-                    <input type="number" class="num-input numerator" placeholder="分子">
-                    <div class="fraction-line"></div>
-                    <input type="number" class="num-input denominator" placeholder="分母">
+                    <div class="fraction-line-box">
+                        <input type="number" class="num-input n-in" placeholder="分子">
+                        <div class="fraction-line"></div>
+                        <input type="number" class="num-input d-in" placeholder="分母">
+                    </div>
                     <button class="submit-ans">提交答案</button>
                 </div>
                 <div class="feedback"></div>
             </div>
 
-            <div class="question" data-correct="9/12">
-                <h3>進階題15：純分數計算：7/12 + 2/12 = ？</h3>
+            <!-- 應用題18：文字題 3/8 + 2/8 = 5/8 -->
+            <div class="question" data-correct-n="5" data-correct-d="8">
+                <h3>18. 一包餅乾有 8 片，弟弟吃了 3 片，妹妹吃了 2 片，他們一共吃了幾分之幾包餅乾？</h3>
                 <div class="shape-container">
-                    <div class="no-shape">7/12 + 2/12 = ?</div>
+                    <div class="word-problem">
+                        計算：3/8 + 2/8 = ?
+                    </div>
                 </div>
                 <div class="answer-area">
-                    <input type="number" class="num-input numerator" placeholder="分子">
-                    <div class="fraction-line"></div>
-                    <input type="number" class="num-input denominator" placeholder="分母">
+                    <div class="fraction-line-box">
+                        <input type="number" class="num-input n-in" placeholder="分子">
+                        <div class="fraction-line"></div>
+                        <input type="number" class="num-input d-in" placeholder="分母">
+                    </div>
                     <button class="submit-ans">提交答案</button>
                 </div>
                 <div class="feedback"></div>
             </div>
 
-            <!-- 進階題16-20：應用題 -->
-            <div class="question" data-correct="3/6">
-                <h3>進階題16：應用題：一盒蛋撻有6個，小明吃掉了3個，小明吃掉的蛋撻佔整盒的幾分之幾？</h3>
+            <!-- 應用題19：文字題 5/12 + 6/12 = 11/12 -->
+            <div class="question" data-correct-n="11" data-correct-d="12">
+                <h3>19. 一條巧克力有 12 小格，小華吃了 5 格，小美吃了 6 格，他們一共吃了幾分之幾條巧克力？</h3>
                 <div class="shape-container">
-                    <div class="word-problem">一盒蛋撻有6個，小明吃掉了3個，小明吃掉的蛋撻佔整盒的幾分之幾？</div>
+                    <div class="word-problem">
+                        計算：5/12 + 6/12 = ?
+                    </div>
                 </div>
                 <div class="answer-area">
-                    <input type="number" class="num-input numerator" placeholder="分子">
-                    <div class="fraction-line"></div>
-                    <input type="number" class="num-input denominator" placeholder="分母">
+                    <div class="fraction-line-box">
+                        <input type="number" class="num-input n-in" placeholder="分子">
+                        <div class="fraction-line"></div>
+                        <input type="number" class="num-input d-in" placeholder="分母">
+                    </div>
                     <button class="submit-ans">提交答案</button>
                 </div>
                 <div class="feedback"></div>
             </div>
 
-            <div class="question" data-correct="4/8">
-                <h3>進階題17：應用題：一個蛋糕平均分8塊，媽媽分給客人4塊，分出去的蛋糕佔整個蛋糕的幾分之幾？</h3>
+            <!-- 應用題20：文字題 -->
+            <div class="question" data-correct-n="5" data-correct-d="6">
+                <h3>20. 一個蛋糕切成 6 塊，爸爸吃了 2 塊，媽媽吃了 3 塊，他們一共吃了幾分之幾個蛋糕？</h3>
                 <div class="shape-container">
-                    <div class="word-problem">一個蛋糕平均分8塊，媽媽分給客人4塊，分出去的蛋糕佔整個蛋糕的幾分之幾？</div>
+                    <div class="word-problem">
+                        計算：2/6 + 3/6 = ?
+                    </div>
                 </div>
                 <div class="answer-area">
-                    <input type="number" class="num-input numerator" placeholder="分子">
-                    <div class="fraction-line"></div>
-                    <input type="number" class="num-input denominator" placeholder="分母">
-                    <button class="submit-ans">提交答案</button>
-                </div>
-                <div class="feedback"></div>
-            </div>
-
-            <div class="question" data-correct="2/7">
-                <h3>進階題18：應用題：一壺果汁可以倒7杯，小華喝了2杯，小華喝的果汁佔整壺的幾分之幾？</h3>
-                <div class="shape-container">
-                    <div class="word-problem">一壺果汁可以倒7杯，小華喝了2杯，小華喝的果汁佔整壺的幾分之幾？</div>
-                </div>
-                <div class="answer-area">
-                    <input type="number" class="num-input numerator" placeholder="分子">
-                    <div class="fraction-line"></div>
-                    <input type="number" class="num-input denominator" placeholder="分母">
-                    <button class="submit-ans">提交答案</button>
-                </div>
-                <div class="feedback"></div>
-            </div>
-
-            <div class="question" data-correct="5/10">
-                <h3>進階題19：應用題：一串香蕉有10根，吃掉了5根，吃掉的香蕉佔整串的幾分之幾？</h3>
-                <div class="shape-container">
-                    <div class="word-problem">一串香蕉有10根，吃掉了5根，吃掉的香蕉佔整串的幾分之幾？</div>
-                </div>
-                <div class="answer-area">
-                    <input type="number" class="num-input numerator" placeholder="分子">
-                    <div class="fraction-line"></div>
-                    <input type="number" class="num-input denominator" placeholder="分母">
-                    <button class="submit-ans">提交答案</button>
-                </div>
-                <div class="feedback"></div>
-            </div>
-
-            <div class="question" data-correct="3/5">
-                <h3>進階題20：應用題：5個小朋友平均分一個西瓜，小明吃了其中3份，小明吃的西瓜佔整個的幾分之幾？</h3>
-                <div class="shape-container">
-                    <div class="word-problem">5個小朋友平均分一個西瓜，小明吃了其中3份，小明吃的西瓜佔整個的幾分之幾？</div>
-                </div>
-                <div class="answer-area">
-                    <input type="number" class="num-input numerator" placeholder="分子">
-                    <div class="fraction-line"></div>
-                    <input type="number" class="num-input denominator" placeholder="分母">
+                    <div class="fraction-line-box">
+                        <input type="number" class="num-input n-in" placeholder="分子">
+                        <div class="fraction-line"></div>
+                        <input type="number" class="num-input d-in" placeholder="分母">
+                    </div>
                     <button class="submit-ans">提交答案</button>
                 </div>
                 <div class="feedback"></div>
@@ -766,107 +936,113 @@
     </div>
 
     <script>
-        // 元素獲取
-        const basicBtn = document.getElementById('basic-btn');
-        const advancedBtn = document.getElementById('advanced-btn');
-        const basicSection = document.getElementById('basic-section');
-        const advancedSection = document.getElementById('advanced-section');
-        const scoreEl = document.getElementById('score');
-        const totalQuestionsEl = document.getElementById('total-questions');
-        const submitBtns = document.querySelectorAll('.submit-ans');
-
-        // 初始化變量
-        let score = 0;
-        let totalQuestions = 0;
-
-        // 難度切換邏輯
-        basicBtn.addEventListener('click', () => {
-            // 切換按鈕狀態
-            basicBtn.classList.add('active');
-            advancedBtn.classList.remove('active');
-            // 切換區域顯示
-            basicSection.classList.add('active');
-            advancedSection.classList.remove('active');
-            // 重置計分
-            resetScore();
-            // 計算總題數
-            totalQuestions = document.querySelectorAll('#basic-section .question').length;
-            totalQuestionsEl.textContent = totalQuestions;
-        });
-
-        advancedBtn.addEventListener('click', () => {
-            // 切換按鈕狀態
-            advancedBtn.classList.add('active');
-            basicBtn.classList.remove('active');
-            // 切換區域顯示
-            advancedSection.classList.add('active');
-            basicSection.classList.remove('active');
-            // 重置計分
-            resetScore();
-            // 計算總題數
-            totalQuestions = document.querySelectorAll('#advanced-section .question').length;
-            totalQuestionsEl.textContent = totalQuestions;
-        });
-
-        // 重置計分
-        function resetScore() {
-            score = 0;
-            scoreEl.textContent = score;
-            // 清空所有反饋和輸入
-            document.querySelectorAll('.feedback').forEach(feedback => {
-                feedback.textContent = '';
-                feedback.classList.remove('correct', 'wrong');
+        // 初始化遊戲
+        document.addEventListener('DOMContentLoaded', function() {
+            // 分數顯示文字
+            const fractionLabels = document.querySelectorAll('.fraction-line-box');
+            fractionLabels.forEach(box => {
+                const inputs = box.querySelectorAll('.num-input');
+                if (inputs[0]) inputs[0].placeholder = "分子";
+                if (inputs[1]) inputs[1].placeholder = "分母";
             });
-            document.querySelectorAll('.num-input').forEach(input => {
-                input.value = '';
+            
+            // 初始化得分
+            let score = 0;
+            let answered = 0;
+            const totalQuestions = 26; // 基礎6題 + 進階20題 = 26題
+            
+            // 更新分數顯示
+            function updateScoreDisplay() {
+                document.getElementById('score').textContent = score;
+                document.getElementById('answered').textContent = answered;
+            }
+            
+            // 設置難度切換按鈕
+            const basicBtn = document.getElementById('basic-btn');
+            const advancedBtn = document.getElementById('advanced-btn');
+            const basicSection = document.getElementById('basic-section');
+            const advancedSection = document.getElementById('advanced-section');
+            
+            // 基礎按鈕點擊事件
+            basicBtn.addEventListener('click', function() {
+                basicBtn.classList.add('active');
+                advancedBtn.classList.remove('active');
+                basicSection.classList.add('active');
+                advancedSection.classList.remove('active');
             });
-        }
-
-        // 提交答案邏輯
-        submitBtns.forEach(btn => {
-            btn.addEventListener('click', () => {
-                // 獲取當前題目元素
-                const question = btn.closest('.question');
-                const numeratorInput = question.querySelector('.numerator');
-                const denominatorInput = question.querySelector('.denominator');
-                const feedback = question.querySelector('.feedback');
-                // 獲取正確答案
-                const correctAnswer = question.dataset.correct;
-                // 獲取用戶答案
-                const userNumerator = numeratorInput.value.trim();
-                const userDenominator = denominatorInput.value.trim();
-                const userAnswer = `${userNumerator}/${userDenominator}`;
-
-                // 驗證輸入
-                if (!userNumerator || !userDenominator) {
-                    feedback.textContent = '請輸入分子和分母！';
-                    feedback.classList.remove('correct', 'wrong');
-                    return;
-                }
-
-                // 判斷答案
-                if (userAnswer === correctAnswer) {
-                    feedback.textContent = '答對了！真棒👍';
-                    feedback.classList.add('correct');
-                    feedback.classList.remove('wrong');
-                    // 加分（避免重複加分）
-                    if (!question.dataset.answered) {
-                        score++;
-                        scoreEl.textContent = score;
-                        question.dataset.answered = 'true';
+            
+            // 進階按鈕點擊事件
+            advancedBtn.addEventListener('click', function() {
+                advancedBtn.classList.add('active');
+                basicBtn.classList.remove('active');
+                advancedSection.classList.add('active');
+                basicSection.classList.remove('active');
+            });
+            
+            // 為所有檢查答案按鈕添加事件監聽器
+            document.querySelectorAll('.submit-ans').forEach(button => {
+                button.addEventListener('click', function() {
+                    const question = this.closest('.question');
+                    const nInput = question.querySelector('.n-in');
+                    const dInput = question.querySelector('.d-in');
+                    const feedback = question.querySelector('.feedback');
+                    
+                    // 獲取使用者輸入
+                    const userNumerator = parseInt(nInput.value) || 0;
+                    const userDenominator = parseInt(dInput.value) || 0;
+                    
+                    // 檢查分母是否為0
+                    if (userDenominator === 0) {
+                        feedback.textContent = "✗ 分母不能為0！";
+                        feedback.className = "feedback wrong";
+                        return;
                     }
-                } else {
-                    feedback.textContent = `答錯了😞 正確答案是：${correctAnswer}`;
-                    feedback.classList.add('wrong');
-                    feedback.classList.remove('correct');
-                    // 標記已答題
-                    question.dataset.answered = 'true';
-                }
+                    
+                    // 獲取正確答案
+                    const correctNumerator = parseInt(question.getAttribute('data-correct-n'));
+                    const correctDenominator = parseInt(question.getAttribute('data-correct-d'));
+                    
+                    // 檢查答案（直接比較，不約分）
+                    if (userNumerator === correctNumerator && userDenominator === correctDenominator) {
+                        feedback.textContent = "✓ 正確！";
+                        feedback.className = "feedback correct";
+                        
+                        // 如果之前沒有回答過，增加分數
+                        if (!question.classList.contains('answered')) {
+                            score++;
+                            answered++;
+                            question.classList.add('answered');
+                            updateScoreDisplay();
+                        }
+                    } else {
+                        feedback.textContent = "✗ 不對，再試試看！";
+                        feedback.className = "feedback wrong";
+                        
+                        // 如果之前沒有回答過，只增加已回答數
+                        if (!question.classList.contains('answered')) {
+                            answered++;
+                            question.classList.add('answered');
+                            updateScoreDisplay();
+                        }
+                    }
+                });
             });
+            
+            // 為輸入框添加Enter鍵提交功能
+            document.querySelectorAll('.num-input').forEach(input => {
+                input.addEventListener('keypress', function(e) {
+                    if (e.key === 'Enter') {
+                        const submitBtn = this.closest('.answer-area').querySelector('.submit-ans');
+                        if (submitBtn) {
+                            submitBtn.click();
+                        }
+                    }
+                });
+            });
+            
+            // 初始化分數顯示
+            updateScoreDisplay();
         });
-
-        // 默認顯示基礎難度
-        basicBtn.click();
     </script>
 </body>
 </html>
